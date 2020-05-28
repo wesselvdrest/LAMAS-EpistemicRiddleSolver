@@ -1,0 +1,10 @@
+~(p & q) | ~r & s
+~(p & q) & r
+Cp
+~Cp
+~C~p
+C~p
+K{A}p
+~K{A}p
+~K{A}~p
+~K(A)p & Cp
