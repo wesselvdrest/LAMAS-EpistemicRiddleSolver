@@ -22,7 +22,7 @@ States:
 4
 5
 6
-7
+7!
 
 Valuations:
 0:
@@ -39,6 +39,7 @@ A: (0 1), (2 4), (3 6), (5 7)
 B: (0 2), (3 5), (1 4), (6 7)
 C: (0 3), (4 7), (2 5), (1 6)
 ```
+Here, the ! behind a state number means that is the true world.
 
 ## Format of propositions
 The operators that can be used are:  
@@ -57,9 +58,9 @@ The following are all valid propositions:
 ~(p & q) | ~r & s  
 ~(p & q) & r  
 Cp  
-\~Cp  
-\~C\~p  
-C\~p  
+~Cp  
+~C~p  
+C~p  
 K{A}p  
 ~K{A}p  
 ~K{A}~p  
@@ -67,7 +68,7 @@ K{A}p
 <p>q  
 [p]q  
 [p & q]r  
-[p&q]\(r \& q\)  
+[p&q](r & q)  
 [p&q]r & q  
 p | <q>r  
 ```

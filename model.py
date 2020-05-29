@@ -2,8 +2,11 @@ class Model:
 
     def __init__(self, states, valuations, relations):
         self.states = set(states)
+        self.__class__.check_states(self.states)
+        
         self.valuations = dict(valuations)
         self.relations = dict(relations)
+
 
     def __repr__(self):
         return (f"Kripke Model:\n"
@@ -35,6 +38,7 @@ class Model:
                         continue
 
                     states.add(c)
+
                 elif parse_state is "Valuations":
                     if c == "Relations:":
                         parse_state = "Relations"
@@ -63,5 +67,22 @@ class Model:
                         except KeyError:
                             relations[agent] = {new_relation}
 
-
+        # Is everything correct?
+        # Check whether there the pointed model points to max 1 state
+        cls.check_states(states)
         return cls(states, valuations, relations)
+
+    @classmethod
+    def check_states(cls, states):
+        n_pointed_states = 0
+        for s in states:
+            if "!" in s:
+                n_pointed_states += 1
+                if n_pointed_states > 1:
+                    raise StateParseError(states, "Too many ! detected (max 1).")
+
+
+class StateParseError(Exception):
+    def __init__(self, states, message):
+        self.states = states
+        self.message = message

@@ -1,17 +1,13 @@
-"""This script tries to parse an expression.
-palalgebra.py was the first attempt, but it is very hard to get that code working.
-This is the second attempt.
-The goal is to make this a lot cleaner and simpler to understand.
 """
+We got inspiration from the freely available online library boolean.py.
+We tried subclassing BooleanAlgebra from boolean.py, but due to some
+impoty errors, we decided to make our own parser.
 
-# An expression can have multiple operators
-
-# An expression can be represented as a tree structure
-
-# Our rules here:
-# Atoms are lower case letters, e.g. the aroms in (p & q) are p and q
-# The operators are: ~ | & ( ) K C [] <>
-
+An expression can be represented as a tree structure.
+Our rules here:
+Atoms are lower case letters, e.g. the atoms in (p & q) are p and q
+The operators are: ~ | & ( ) K C [] <>
+"""
 class Atom:
     def __init__(self, arg):
         self.arg = arg
