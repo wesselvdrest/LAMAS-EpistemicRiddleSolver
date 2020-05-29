@@ -24,3 +24,9 @@ K{A}p
 ~K{A}p  
 ~K{A}~p  
 ~K(A)p & Cp  
+\<p\>q  
+[p]q  
+[p & q]r  
+[p&q]\(r \& q\)  
+[p&q]r & q  
+p | [q]r  
