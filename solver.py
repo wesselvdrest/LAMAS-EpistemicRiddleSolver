@@ -130,7 +130,7 @@ def valid(model, pointed_state, proposition):
 def where(model, proposition):
     in_worlds = []
     for state in model.states:
-        pointed_state = state.replace("!", "")
+        pointed_state = state
 
         if valid(model, pointed_state, proposition):
             in_worlds.append(pointed_state)
