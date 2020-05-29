@@ -35,7 +35,6 @@ def valid(model, pointed_state, proposition):
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
     """
-
     # An atom is valid in (M, s) if the atom is in the valuation
     if isinstance(proposition, Atom):
         prop_is_valid = proposition.arg in model.valuations[pointed_state]
@@ -52,20 +51,60 @@ def valid(model, pointed_state, proposition):
         # in the pointed state
         prop_is_valid = valid(model, pointed_state, proposition.arg)
 
-        for relation in model.relations[agent]:
-            if pointed_state in relation:
-                if pointed_state == relation[0]:
-                    if not valid(model, relation[1], proposition.arg):
-                        prop_is_valid = False
-                        break
-                else:
-                    # pointed_state == relation[1]
-                    if not valid(model, relation[0], proposition.arg):
-                        prop_is_valid = False
-                        break
+        if prop_is_valid:
+            for relation in model.relations[agent]:
+                if pointed_state in relation:
+                    if pointed_state == relation[0]:
+                        if not valid(model, relation[1], proposition.arg):
+                            prop_is_valid = False
+                            break
+                    else:
+                        # pointed_state == relation[1]
+                        if not valid(model, relation[0], proposition.arg):
+                            prop_is_valid = False
+                            break
 
-def where():
-    pass
+    elif isinstance(proposition, C):
+        # Determine which of the states are reachable in any number of steps
+        # From the current pointed state
+        reachable_states = {pointed_state}
+        prev_len_reachable_states = 0   # Keep track of length so that we may stop the while loop
+        while len(reachable_states) != prev_len_reachable_states
+            prev_len_reachable_states = len(reachable_states)
+            for state in reachable states:
+                for _, relations in model.relations.items():
+                    for relation in relations:
+                        if state in relation and pointed_state in relation:
+                            reachable_states.add(state)
+
+        # If in any of the states in the set of reachable states, it does
+        # not hold that proposition.arg (the argument of the C operator), then 
+        # The proposition is not valid
+        prop_is_valid = True
+        for state in reachable_states:
+            if not valid(model, state, proposition.arg):
+                prop_is_valid = False
+                break
+
+    elif isinstance(proposition, Box):
+        # The announcement deletes some of the relations
+        pass
+
+    elif isinstance(proposition, Diamond):
+        # The announcement deletes some of the relations
+        pass
+
+    return prop_is_valid
+      
+def where(model, proposition):
+    in_worlds = []
+    for state in model.states:
+        pointed_state = state.replace("!", "")
+
+        if valid(model, pointed_state, proposition):
+            in_worlds.append(pointed_state)
+
+    return in_worlds
 
 def main():
     parser = argparse.ArgumentParser("Kripke model solver")
@@ -77,12 +116,6 @@ def main():
     model = Model.fromtxtfile(args.model)
     print(model)
 
-    # Get the pointed state
-    for state in model.states:
-        if "!" in state:
-            pointed_state = state.replace("!", "")
-            break
-
     if not args.valid and not args.where:
         print("No filename specified for either the valid or where functions.")
         parser.print_help()
@@ -91,6 +124,12 @@ def main():
     if args.valid:
         with open(args.valid, "r") as f:
             contents = f.readlines()
+
+        # Get the pointed state
+        for state in model.states:
+            if "!" in state:
+                pointed_state = state.replace("!", "")
+                break
 
         for string in contents:
             if len(string) > 0:
