@@ -109,7 +109,7 @@ class Diamond:
         self.order = 2
 
     def __repr__(self):
-        return f"Diamond[{self.arg1}]({self.arg2})"
+        return f"Diamond<{self.arg1}>({self.arg2})"
 
     def __len__(self):
         return len(self.arg1) + len(self.arg2) + 2

@@ -14,3 +14,4 @@ K{A}p
 [p&q](r & q)
 [p&q]r & q
 p | [q]r
+p | <q>r
