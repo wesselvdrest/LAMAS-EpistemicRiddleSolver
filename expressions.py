@@ -283,6 +283,7 @@ class Expression:
     def __repr__(self):
         return f"{self.expr}"
 
+
 class ParseError(Exception):
     def __init__(self, expression, message):
         self.expression = expression

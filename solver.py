@@ -1,6 +1,6 @@
 import argparse
 from model import Model
-from expression_parser import *
+from expressions import *
 
 # S5 Kripke model solver
 
@@ -16,9 +16,11 @@ def parse_proposition(string):
     string = string.replace(" ", "")
     string = string.replace("\n", "")
     print(string)
-    expr = Expression(string)
-    print(expr)
-    return expr
+    expression = Expression(string)
+    print(expression)
+    expression = expression.expr
+
+    return expression
 
 def valid(model, pointed_state, proposition):
     """ A proposition can have many forms. We will use the truth
@@ -31,19 +33,33 @@ def valid(model, pointed_state, proposition):
     (M, s) |= p & q    iff (M, s) |= p and (M, s) |= q
     (M, s) |= ~p       iff (M, s) not |= p
     (M, s) |= K{A}p    iff (M, t) |= p for all (s, t) in Rel{A}
+    (M, s) |= Cp       iff (M, t) |= p for all (s, t) in the union of Rel(A) .. Rel(Z)
+    (M, s) |= [p]q     iff (M, s) |= p implies that (M|p, s) |= q
+    (M, s) |= <p>q     iff (M, s) |= p and (M|p, s) |= q
 
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
     """
     # An atom is valid in (M, s) if the atom is in the valuation
+
+
+    # TODO: Fix in the parser that we do not get propositions of type Expression    
+    if isinstance(proposition, Expression):
+        # This is a quick fix
+        proposition = proposition.expr
+
     if isinstance(proposition, Atom):
-        prop_is_valid = proposition.arg in model.valuations[pointed_state]
+        prop_is_valid = proposition.arg in model.valuations[str(pointed_state)]
 
     elif isinstance(proposition, AND):
         prop_is_valid = valid(model, pointed_state, proposition.arg1) and valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, NOT):
-        prop_is_valid != valid(model, pointed_state, proposition.arg)
+        prop_is_valid = not valid(model, pointed_state, proposition.arg)
+
+    elif isinstance(proposition, OR):
+        prop_is_valid = valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
+
 
     elif isinstance(proposition, K):
         agent = proposition.agent
@@ -69,13 +85,13 @@ def valid(model, pointed_state, proposition):
         # From the current pointed state
         reachable_states = {pointed_state}
         prev_len_reachable_states = 0   # Keep track of length so that we may stop the while loop
-        while len(reachable_states) != prev_len_reachable_states
+        while len(reachable_states) != prev_len_reachable_states:
             prev_len_reachable_states = len(reachable_states)
-            for state in reachable states:
-                for _, relations in model.relations.items():
-                    for relation in relations:
-                        if state in relation and pointed_state in relation:
-                            reachable_states.add(state)
+            for _, relations in model.relations.items():
+                for relation in relations:
+                    for state in reachable_states.copy():
+                        if state in relation:
+                            reachable_states.update({*relation})
 
         # If in any of the states in the set of reachable states, it does
         # not hold that proposition.arg (the argument of the C operator), then 
@@ -87,12 +103,27 @@ def valid(model, pointed_state, proposition):
                 break
 
     elif isinstance(proposition, Box):
-        # The announcement deletes some of the relations
-        pass
+        # The announcement deletes some of the states and relations
+        # The proposition is valid if the argument is true regardless of the announcement
+
+        # If I understand it correctly, the proposition should thus be valid
+        # if either the announcement is false, or the argument is true
+        # TODO: CONFIRM THAT THIS IS INDEED THE CASE!
+        prop_is_valid = not valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, Diamond):
-        # The announcement deletes some of the relations
-        pass
+        # The announcement deletes some of the states and relations
+        # Namely, the announcement deletes all states in which the announcement is invalid
+        viable_states = model.states.copy()
+        for state in model.states:
+            if not valid(model, state, proposition.arg1):
+                viable_states.remove(state)
+
+        model.states = viable_states
+        if pointed_state not in model.states:
+            prop_is_valid = False
+        else:
+            prop_is_valid = valid(model, pointed_state, proposition.arg2)
 
     return prop_is_valid
       
@@ -120,28 +151,27 @@ def main():
         print("No filename specified for either the valid or where functions.")
         parser.print_help()
 
-
+    # We now have the model defined.
+    # Now we can ask whether a proposition is valid
     if args.valid:
         with open(args.valid, "r") as f:
             contents = f.readlines()
 
-        # Get the pointed state
-        for state in model.states:
-            if "!" in state:
-                pointed_state = state.replace("!", "")
-                break
+        pointed_state = model.pointed_state        
 
         for string in contents:
             if len(string) > 0:
                 proposition = parse_proposition(string)
                 # TODO: Print unicode double turnstile and the negation of the double turnstile!
                 if valid(model, pointed_state, proposition):
-                    print(f"M |= {string}")
+                    turnstile = u'\u22A8'
+                    print(f"(M, {pointed_state}) {turnstile} {string}")
                 else:
-                    print(f"M !|= {string}")
+                    not_turnstile = u'\u22AD'
+                    print(f"(M, {pointed_state}) {not_turnstile} {string}")
                 print()
 
-
+    # We can also ask where the proposition is valid
     if args.where:
         with open(args.where, "r") as f:
             contents = f.readlines()
@@ -152,8 +182,7 @@ def main():
                 in_worlds = where(model, proposition)
                 print(f"The proposition {proposition} is true in worlds {in_worlds}.")
 
-    # We now have the model defined.
-    # Now we can ask whether a proposition is valid
+
 
 
 

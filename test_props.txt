@@ -1,0 +1,8 @@
+K{A}p
+K{A}q
+K{A}r
+K{A}(p | q)
+K{A}(p | r)
+K{A}(p & q)
+K{A}(p & r)
+K{B}p

@@ -1,9 +1,9 @@
 class Model:
 
-    def __init__(self, states, valuations, relations):
+    def __init__(self, states, pointed_state, valuations, relations):
         self.states = set(states)
-        self.__class__.check_states(self.states)
-        
+        self.pointed_state = pointed_state
+
         self.valuations = dict(valuations)
         self.relations = dict(relations)
 
@@ -20,6 +20,7 @@ class Model:
         """This function parses a file and returns a Kripke model.
         TODO: Use JSON instead of txt"""
         states = set()
+        pointed_state = None
         valuations = dict()
         relations = dict()
 
@@ -37,7 +38,16 @@ class Model:
                         parse_state = "Valuations"
                         continue
 
-                    states.add(c)
+                    # Pointed states are denoted by !
+                    if "!" in c:
+                        if pointed_state != None:
+                            raise StateParseError(states,
+                                                  "Too many ! detected (max 1).")
+
+                        c = c.replace("!", "")
+                        pointed_state = int(c)
+
+                    states.add(int(c))
 
                 elif parse_state == "Valuations":
                     if c == "Relations:":
@@ -67,19 +77,7 @@ class Model:
                         except KeyError:
                             relations[agent] = {new_relation}
 
-        # Is everything correct?
-        # Check whether there the pointed model points to max 1 state
-        cls.check_states(states)
-        return cls(states, valuations, relations)
-
-    @classmethod
-    def check_states(cls, states):
-        n_pointed_states = 0
-        for s in states:
-            if "!" in s:
-                n_pointed_states += 1
-                if n_pointed_states > 1:
-                    raise StateParseError(states, "Too many ! detected (max 1).")
+        return cls(states, pointed_state, valuations, relations)
 
 
 class StateParseError(Exception):
