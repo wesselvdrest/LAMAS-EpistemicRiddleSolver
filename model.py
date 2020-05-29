@@ -32,14 +32,14 @@ class Model:
                 if c == "":
                     continue
 
-                if parse_state is "States":
+                if parse_state == "States":
                     if c == "Valuations:":
                         parse_state = "Valuations"
                         continue
 
                     states.add(c)
 
-                elif parse_state is "Valuations":
+                elif parse_state == "Valuations":
                     if c == "Relations:":
                         parse_state = "Relations"
                         continue
@@ -52,7 +52,7 @@ class Model:
                     state = split[0].rstrip(":")
                     valuations[state] = split[1:]
 
-                elif parse_state is "Relations":
+                elif parse_state == "Relations":
                     agent = c.split(":")[0]
                     tuples = c.split(":")[1]
                     tuples = tuples.replace("(", "")
