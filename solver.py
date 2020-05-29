@@ -1,6 +1,5 @@
 import argparse
 from model import Model
-from palalgebra import PALAlgebra
 
 import expression_parser
 

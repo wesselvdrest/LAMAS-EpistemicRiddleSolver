@@ -17,9 +17,9 @@ The following are all valid propositions:
 ~(p & q) | ~r & s  
 ~(p & q) & r  
 Cp  
-~Cp  
-~C~p  
-C~p  
+\~Cp  
+\~C\~p  
+C\~p  
 K{A}p  
 ~K{A}p  
 ~K{A}~p  

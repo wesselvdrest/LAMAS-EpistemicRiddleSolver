@@ -88,6 +88,31 @@ class K:
         # The length of K{A} is 4
         return len(self.arg) + 4
 
+class Box:
+    # An announcement has 2 arguments.
+    def __init__(self, arg1, arg2):
+        self.arg1 = arg1
+        self.arg2 = arg2
+        self.order = 2
+
+    def __repr__(self):
+        return f"Box[{self.arg1}]({self.arg2})"
+
+    def __len__(self):
+        return len(self.arg1) + len(self.arg2) + 2
+
+class Diamond:
+    # An announcement has 2 arguments.
+    def __init__(self, arg1, arg2):
+        self.arg1 = arg1
+        self.arg2 = arg2
+        self.order = 2
+
+    def __repr__(self):
+        return f"Diamond[{self.arg1}]({self.arg2})"
+
+    def __len__(self):
+        return len(self.arg1) + len(self.arg2) + 2
 
 class Expression:
     def __init__(self, string):
@@ -138,6 +163,48 @@ class Expression:
 
         return expr, string
 
+    def announcement_case(self, string):
+        if string[0] == "[":
+            lbrack_count = 1
+            langle_count = 0
+        elif string[0] == "<":
+            langle_count = 1
+            lbrack_count = 0
+
+
+        index = 1
+        while index < len(string) and (lbrack_count > 0 or langle_count > 0):
+            if string[index] == "[":
+                lbrack_count += 1
+
+            if string[index] == "]":
+                if lbrack_count == 0:
+                    raise ParseError(string, "Brackets are not balanced! More ] than [")
+                lbrack_count -= 1
+
+            if string[index] == "<":
+                langle_count += 1
+
+            if string[index] == ">":
+                if langle_count == 0:
+                    raise ParseError(string, "Angled brackets are not balanced! More > than <")
+                langle_count -= 1
+
+            index += 1
+
+        if lbrack_count > 0:
+            # IF the lbrack_count is still higher than 0 after that whole while loop
+            # We have at least one left bracket that is not closed
+            raise ParseError(string, "Brackets are not balanced! More [ than ]")
+        elif langle_count > 0:
+            # IF the langle_count is still higher than 0 after that whole while loop
+            # We have at least one left angled bracket that is not closed
+            raise ParseError(string, "Angled brackets are not balanced! More < than >")
+
+        index = index - 1
+        return index        
+
+
     def parse(self, string):
         # If we see a ~ at the start (NOT)
         # We will add a NOT operator to the list,
@@ -151,6 +218,12 @@ class Expression:
             # ) case
             if string[0] == ")":
                 raise ParseError(string, "Parentheses are not balanced! More ) than (")
+
+            elif string[0] == "]":
+                raise ParseError(string, "Brackets are not balanced! More ] than [")
+
+            elif string[0] == ">":
+                raise ParseError(string, "Angled brackets are not balanced! More > than <")
 
             # ( case
             elif string[0] == "(":
@@ -167,17 +240,6 @@ class Expression:
             elif string[0] == "~":
                 subexpr, string = self.order1_case(string[1:])
                 expr = NOT(subexpr)
-                # if string[1] == "(":
-                #     rpar_index = self.lpar_case(string[1:])
-                #     expr = NOT(Expression(string[2:rpar_index+1]))
-                #     string = string[rpar_index+2:]
-                # elif string[1].isalpha() and string[1].islower():
-                #     expr = NOT(Atom(string[1]))
-                #     string = string[2:]
-                # else:
-                #     subexpr = Expression(string[1:])
-                #     expr = NOT(subexpr)
-                #     string = string[1 + len(subexpr) + subexpr.encountered_pars:]
 
             # & case
             elif string[0] == "&":
@@ -204,6 +266,21 @@ class Expression:
                 agent = string[2]
                 subexpr, string = self.order1_case(string[4:])
                 expr = K(agent, subexpr)
+
+            # Public announcement []
+            elif string[0] == "[":
+                rbrack_index = self.announcement_case(string)
+                announcement = Expression(string[1:rbrack_index])
+                subexpr, string = self.order1_case(string[1+rbrack_index:])
+                expr = Box(announcement, subexpr)
+
+            # Public announcement <>
+            elif string[0] == "<":
+                rangle_index = self.announcement_case(string)
+                announcement = Expression(string[1:rangle_index])
+                subexpr, string = self.order1_case(string[1+rangle_index:])
+                expr = Diamond(announcement, subexpr)
+
 
         return expr
 
