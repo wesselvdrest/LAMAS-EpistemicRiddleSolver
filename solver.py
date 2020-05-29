@@ -30,7 +30,7 @@ def valid(model, pointed_state, proposition):
     (M, s) |= p        iff valuation(s)(p) = true
     (M, s) |= p & q    iff (M, s) |= p and (M, s) |= q
     (M, s) |= ~p       iff (M, s) not |= p
-    (M, s) |= K{A}p    iff (M, s) |= p for all 
+    (M, s) |= K{A}p    iff (M, t) |= p for all (s, t) in Rel{A}
 
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
@@ -48,7 +48,10 @@ def valid(model, pointed_state, proposition):
 
     elif isinstance(proposition, K):
         agent = proposition.agent
-        prop_is_valid = True
+        # S5 has reflexive relations, so the proposition should also hold
+        # in the pointed state
+        prop_is_valid = valid(model, pointed_state, proposition.arg)
+
         for relation in model.relations[agent]:
             if pointed_state in relation:
                 if pointed_state == relation[0]:
@@ -60,7 +63,7 @@ def valid(model, pointed_state, proposition):
                     if not valid(model, relation[0], proposition.arg):
                         prop_is_valid = False
                         break
-                        
+
 def where():
     pass
 
