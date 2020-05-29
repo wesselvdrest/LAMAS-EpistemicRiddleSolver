@@ -35,7 +35,6 @@ def valid(model, pointed_state, proposition):
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
     """
-
     # An atom is valid in (M, s) if the atom is in the valuation
     if isinstance(proposition, Atom):
         prop_is_valid = proposition.arg in model.valuations[pointed_state]
@@ -61,7 +60,15 @@ def valid(model, pointed_state, proposition):
                         prop_is_valid = False
                         break
                         
-def where():
+def where(model, proposition):
+    in_worlds = []
+    for state in model.states:
+        if "!" in state:
+            pointed_state = state.replace("!", "")
+        else:
+            pointed_state = state
+        if valid(model, pointed_state, proposition):
+            in_worlds.append(pointed_state)
     pass
 
 def main():
