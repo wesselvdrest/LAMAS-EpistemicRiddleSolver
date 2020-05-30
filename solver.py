@@ -40,8 +40,7 @@ def valid(model, pointed_state, proposition):
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
     """
-    # An atom is valid in (M, s) if the atom is in the valuation
-
+    # An atom is valid in (M, s) if the atom is in the valuation    
 
     # TODO: Fix in the parser that we do not get propositions of type Expression    
     if isinstance(proposition, Expression):
@@ -115,11 +114,13 @@ def valid(model, pointed_state, proposition):
             if not valid(model, state, proposition.arg1):
                 viable_states.remove(state)
 
-        model.set_states(viable_states)
-        if pointed_state not in model.states:
+        temp_model = Model.copy(model)
+        temp_model.set_states(viable_states)
+        if pointed_state not in temp_model.states:
             prop_is_valid = False
         else:
-            prop_is_valid = valid(model, pointed_state, proposition.arg2)
+            prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
+
 
     return prop_is_valid
       

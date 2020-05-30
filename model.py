@@ -10,9 +10,11 @@ class Model:
     def __repr__(self):
         return (f"Kripke Model:\n"
                 f"States: {self.states}\n"
+                f"Pointed state: {self.pointed_state}\n"
                 f"Valuations: {self.valuations}\n"
                 f"Relations: {self.relations}\n"
                 )
+
 
     def set_states(self, states):
         """This method is based on the intuition that when we want to set the states
@@ -39,6 +41,10 @@ class Model:
                 if (state, state) not in relations:
                     relations.add((state, state))
             self.relations[agent] = relations
+
+    @classmethod
+    def copy(cls, model):
+        return cls(model.states, model.pointed_state, model.valuations, model.relations)
 
     @classmethod
     def fromtxtfile(cls, filename):
