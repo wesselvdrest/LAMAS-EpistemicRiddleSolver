@@ -45,9 +45,9 @@ Here, the ! behind a state number means that is the true world.
 The operators that can be used are:  
 & for AND  
 | for OR  
-~ for NOT
+~ for NOT  
 C for Common Knowledge  
-K{A} for agent A knows that
+K{A} for agent A knows that  
 <> for some truthful public announcement  
 [] for every truthful public announcement  
 And of course the parentheses can be used to denote scope ( )  

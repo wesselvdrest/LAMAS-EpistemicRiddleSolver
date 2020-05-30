@@ -1,3 +1,8 @@
 Cr
-<r>Cr
-Cr
+C(r)
+C(p | r)
+<K{B}p>K{A}p
+<K{B}p>Cp
+<~K{B}p>Cp
+<~K{B}p>K{B}~p
+K{B}p
