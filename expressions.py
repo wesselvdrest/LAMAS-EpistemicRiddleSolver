@@ -288,7 +288,10 @@ class Expression:
                 subexpr, string = self.order1_case(string[1+rangle_index:])
                 expr = Diamond(announcement, subexpr)
 
-
+            else:
+                raise ParseError(None, f"Could not parse {string[0]}")
+                exit()
+                
         return expr
 
     def __repr__(self):

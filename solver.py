@@ -13,11 +13,11 @@ from expressions import *
 # Essentially, we are adding the rules for the K, C, [] and <> operators.
 
 def parse_proposition(string):
-    string = string.replace(" ", "")
-    string = string.replace("\n", "")
     print(string)
+    print()
     expression = Expression(string)
     print(expression)
+    print()
     expression = expression.expr
 
     return expression
@@ -42,7 +42,6 @@ def valid(model, pointed_state, proposition):
     """
     # An atom is valid in (M, s) if the atom is in the valuation    
 
-    # print(model)
 
     # MIGHTDO: Fix in the parser that we do not get propositions of type Expression    
     while isinstance(proposition, Expression):
@@ -123,9 +122,8 @@ def valid(model, pointed_state, proposition):
         else:
             prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
 
-
     return prop_is_valid
-      
+
 def where(model, proposition):
     """The where function evaluates whether the given proposition is valid
     in any of the states. It returns the worlds in which it is."""
@@ -154,6 +152,7 @@ def main():
 
     # We now have the model defined.
     # Now we can ask whether a proposition is valid
+    print("-------------------------")
     if args.valid:
         with open(args.valid, "r") as f:
             contents = f.readlines()
@@ -162,6 +161,8 @@ def main():
 
         for string in contents:
             # Comments are noted with '#' in the txt file.
+            string = string.replace(" ", "")
+            string = string.replace("\n", "")
             if len(string) > 1 and string[0] != "#":
                 proposition = parse_proposition(string)
                 if valid(model, pointed_state, proposition):
@@ -171,6 +172,7 @@ def main():
                     not_turnstile = u'\u22AD'
                     print(f"(M, {pointed_state}) {not_turnstile} {string}")
                 print()
+                print()
 
     # We can also ask where the proposition is valid
     if args.where:
@@ -178,10 +180,13 @@ def main():
             contents = f.readlines()
 
         for string in contents:
-            if len(string) > 0:
+            string = string.replace(" ", "")
+            string = string.replace("\n", "")
+            if len(string) > 1 and string[0] != "#":
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
                 print(f"The proposition is true in worlds {in_worlds}.")
+                print("-------------------------")
                 print()
 
 if __name__ == "__main__":
