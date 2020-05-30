@@ -127,6 +127,8 @@ def valid(model, pointed_state, proposition):
     return prop_is_valid
       
 def where(model, proposition):
+    """The where function evaluates whether the given proposition is valid
+    in any of the states. It returns the worlds in which it is."""
     in_worlds = []
     for state in model.states:
         pointed_state = state
