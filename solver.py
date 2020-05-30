@@ -63,22 +63,18 @@ def valid(model, pointed_state, proposition):
 
     elif isinstance(proposition, K):
         agent = proposition.agent
-        # S5 has reflexive relations, so the proposition should also hold
-        # in the pointed state
-        prop_is_valid = valid(model, pointed_state, proposition.arg)
-
-        if prop_is_valid:
-            for relation in model.relations[agent]:
-                if pointed_state in relation:
-                    if pointed_state == relation[0]:
-                        if not valid(model, relation[1], proposition.arg):
-                            prop_is_valid = False
-                            break
-                    else:
-                        # pointed_state == relation[1]
-                        if not valid(model, relation[0], proposition.arg):
-                            prop_is_valid = False
-                            break
+        prop_is_valid = True
+        for relation in model.relations[agent]:
+            if pointed_state in relation:
+                if pointed_state == relation[0]:
+                    if not valid(model, relation[1], proposition.arg):
+                        prop_is_valid = False
+                        break
+                else:
+                    # pointed_state == relation[1]
+                    if not valid(model, relation[0], proposition.arg):
+                        prop_is_valid = False
+                        break
 
     elif isinstance(proposition, C):
         # Determine which of the states are reachable in any number of steps
@@ -108,7 +104,7 @@ def valid(model, pointed_state, proposition):
 
         # If I understand it correctly, the proposition should thus be valid
         # if either the announcement is false, or the argument is true
-        # TODO: CONFIRM THAT THIS IS INDEED THE CASE!
+        # TODO: CONFIRM THAT THIS IS INDEED THE CASE! Correct me on this one!
         prop_is_valid = not valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, Diamond):
@@ -119,7 +115,7 @@ def valid(model, pointed_state, proposition):
             if not valid(model, state, proposition.arg1):
                 viable_states.remove(state)
 
-        model.states = viable_states
+        model.set_states(viable_states)
         if pointed_state not in model.states:
             prop_is_valid = False
         else:
@@ -181,9 +177,6 @@ def main():
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
                 print(f"The proposition {proposition} is true in worlds {in_worlds}.")
-
-
-
 
 
 if __name__ == "__main__":

@@ -3,10 +3,9 @@ class Model:
     def __init__(self, states, pointed_state, valuations, relations):
         self.states = set(states)
         self.pointed_state = pointed_state
-
         self.valuations = dict(valuations)
         self.relations = dict(relations)
-
+        self.create_reflexive_relations()
 
     def __repr__(self):
         return (f"Kripke Model:\n"
@@ -14,6 +13,32 @@ class Model:
                 f"Valuations: {self.valuations}\n"
                 f"Relations: {self.relations}\n"
                 )
+
+    def set_states(self, states):
+        """This method is based on the intuition that when we want to set the states
+        of the model, i.e. take a subset of the original states, we should also
+        change the valuations and relations to reflect this."""
+        self.states = set(states)
+        for state, valuation in self.valuations.copy().items():
+            if int(state) not in self.states:
+                del self.valuations[state]
+
+        for agent, relations in self.relations.copy().items():
+            for relation in relations.copy():
+                if relation[0] not in self.states or relation[1] not in self.states:
+                    relations.remove(relation)
+            self.relations[agent] = relations
+
+    def create_reflexive_relations(self):
+        """Sometimes, writing out all reflexive relations in the model
+        can be rather tiresome. This method will do that for us.
+        Thus there is no need to explicitly write the reflexive relations in the model,
+        but it is no problem if that should be done."""
+        for agent, relations in self.relations.copy().items():
+            for state in self.states:
+                if (state, state) not in relations:
+                    relations.add((state, state))
+            self.relations[agent] = relations
 
     @classmethod
     def fromtxtfile(cls, filename):
