@@ -1,2 +1,3 @@
-<p | r>r
-K{A}r
+Cr
+<r>Cr
+Cr

@@ -42,6 +42,8 @@ def valid(model, pointed_state, proposition):
     """
     # An atom is valid in (M, s) if the atom is in the valuation    
 
+    # print(model)
+
     # TODO: Fix in the parser that we do not get propositions of type Expression    
     if isinstance(proposition, Expression):
         # This is a quick fix
@@ -116,6 +118,7 @@ def valid(model, pointed_state, proposition):
 
         temp_model = Model.copy(model)
         temp_model.set_states(viable_states)
+
         if pointed_state not in temp_model.states:
             prop_is_valid = False
         else:

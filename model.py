@@ -1,3 +1,5 @@
+import copy
+
 class Model:
 
     def __init__(self, states, pointed_state, valuations, relations):
@@ -44,7 +46,10 @@ class Model:
 
     @classmethod
     def copy(cls, model):
-        return cls(model.states, model.pointed_state, model.valuations, model.relations)
+        return cls(model.states.copy(),
+                   model.pointed_state,
+                   copy.deepcopy(model.valuations),
+                   copy.deepcopy(model.relations))
 
     @classmethod
     def fromtxtfile(cls, filename):
