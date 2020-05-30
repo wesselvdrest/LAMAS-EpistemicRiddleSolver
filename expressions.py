@@ -152,6 +152,17 @@ class Expression:
         elif string[0].isalpha() and string[0].islower():
             expr = Atom(string[0])
             string = string[1:]
+        elif string[0] == "~":
+            subexpr, string = self.order1_case(string[1:])
+            expr = NOT(subexpr)
+        elif string[0] == "C":
+            subexpr, string = self.order1_case(string[1:])
+            expr = C(subexpr)
+        elif string[0] == "K":
+            # K{A}p -- A is the agent -> string[2] is the agent
+            agent = string[2]
+            subexpr, string = self.order1_case(string[4:])
+            expr = K(agent, subexpr)
         else:
             subexpr = Expression(string[0:])
             expr = subexpr
@@ -259,6 +270,7 @@ class Expression:
             # The epistemic operator K case
             elif string[0] == "K":
                 # string[1] and string[3] should be the open and close braces {}
+                # Agents are represented by a Capital Letter
                 agent = string[2]
                 subexpr, string = self.order1_case(string[4:])
                 expr = K(agent, subexpr)

@@ -1,17 +1,6 @@
-~(p & q) | ~r & s
-~(p & q) & r
-Cp
-~Cp
-~C~p
-C~p
-K{A}p
-~K{A}p
-~K{A}~p
-~K(A)p & Cp
-<p>q
-[p]q
-[p & q]r
-[p&q](r & q)
-[p&q]r & q
-p | [q]r
-p | <q>r
+<p | q | r>(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
+
+(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
+
+(K{A}p | K{A}~p | K{B}q)
+

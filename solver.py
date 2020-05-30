@@ -160,7 +160,8 @@ def main():
         pointed_state = model.pointed_state        
 
         for string in contents:
-            if len(string) > 0:
+            # Comments are noted with '#' in the txt file.
+            if len(string) > 1 and string[0] != "#":
                 proposition = parse_proposition(string)
                 # TODO: Print unicode double turnstile and the negation of the double turnstile!
                 if valid(model, pointed_state, proposition):
