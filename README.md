@@ -53,7 +53,7 @@ K{A} for agent A knows that
 And of course the parentheses can be used to denote scope ( )  
 
 
-The following are all valid propositions:  
+The following are all valid ways of writing propositions:  
 ```bash
 ~(p & q) | ~r & s  
 ~(p & q) & r  

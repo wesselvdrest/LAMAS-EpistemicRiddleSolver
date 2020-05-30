@@ -112,12 +112,11 @@ class Diamond:
 
 class Expression:
     def __init__(self, string):
-        # self.epistemic_operators = {"C": C, "K": K}
         self.encountered_pars = 0
         self.expr = self.parse(string)
 
     def __len__(self):
-        return len(self.expr)
+        return len(self.expr) + self.encountered_pars
 
     def lpar_case(self, string):
         lpar_count = 1
@@ -147,7 +146,7 @@ class Expression:
     def order1_case(self, string):
         if string[0] == "(":
             rpar_index = self.lpar_case(string[0:])
-            expr = Expression(string[1:rpar_index+0])
+            expr = Expression(string[1:rpar_index])
             string = string[rpar_index+1:]
         elif string[0].isalpha() and string[0].islower():
             expr = Atom(string[0])
@@ -166,7 +165,7 @@ class Expression:
         else:
             subexpr = Expression(string[0:])
             expr = subexpr
-            string = string[0 + len(subexpr) + subexpr.encountered_pars:]
+            string = string[0 + len(subexpr):]
 
         return expr, string
 
@@ -177,7 +176,6 @@ class Expression:
         elif string[0] == "<":
             langle_count = 1
             lbrack_count = 0
-
 
         index = 1
         while index < len(string) and (lbrack_count > 0 or langle_count > 0):
@@ -222,6 +220,7 @@ class Expression:
         expr = None
 
         while len(string) > 0:
+
             # ) case
             if string[0] == ")":
                 raise ParseError(string, "Parentheses are not balanced! More ) than (")
@@ -253,15 +252,15 @@ class Expression:
                 # The AND case has 2 arguments, the previous expression and the next
                 next_subexpr = Expression(string[1:])
                 expr = AND(expr, next_subexpr)
-                string = string[len(next_subexpr) + next_subexpr.encountered_pars +1:]
+                string = string[len(next_subexpr)+1:]
 
             # | case
             elif string[0] == "|":
                 # The OR operator also has 2 arguments
+                before_string = string
                 next_subexpr = Expression(string[1:])
                 expr = OR(expr, next_subexpr)
-                string = string[len(next_subexpr) + next_subexpr.encountered_pars +1:]
-
+                string = string[len(next_subexpr)+1:]
             # The epistemic operator C case
             elif string[0] == "C":
                 subexpr, string = self.order1_case(string[1:])

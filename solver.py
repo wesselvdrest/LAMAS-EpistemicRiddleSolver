@@ -44,8 +44,8 @@ def valid(model, pointed_state, proposition):
 
     # print(model)
 
-    # TODO: Fix in the parser that we do not get propositions of type Expression    
-    if isinstance(proposition, Expression):
+    # MIGHTDO: Fix in the parser that we do not get propositions of type Expression    
+    while isinstance(proposition, Expression):
         # This is a quick fix
         proposition = proposition.expr
 
@@ -60,7 +60,6 @@ def valid(model, pointed_state, proposition):
 
     elif isinstance(proposition, OR):
         prop_is_valid = valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
-
 
     elif isinstance(proposition, K):
         agent = proposition.agent
@@ -163,7 +162,6 @@ def main():
             # Comments are noted with '#' in the txt file.
             if len(string) > 1 and string[0] != "#":
                 proposition = parse_proposition(string)
-                # TODO: Print unicode double turnstile and the negation of the double turnstile!
                 if valid(model, pointed_state, proposition):
                     turnstile = u'\u22A8'
                     print(f"(M, {pointed_state}) {turnstile} {string}")
@@ -181,8 +179,8 @@ def main():
             if len(string) > 0:
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
-                print(f"The proposition {proposition} is true in worlds {in_worlds}.")
-
+                print(f"The proposition is true in worlds {in_worlds}.")
+                print()
 
 if __name__ == "__main__":
     main()
