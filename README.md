@@ -64,7 +64,7 @@ C~p
 K{A}p  
 ~K{A}p  
 ~K{A}~p  
-~K(A)p & Cp  
+~K{A}p & Cp  
 <p>q  
 [p]q  
 [p & q]r  
@@ -72,3 +72,9 @@ K{A}p
 [p&q]r & q  
 p | <q>r  
 ```
+
+## Possible extensions to the program
+Parsing:  
+Multicharacter propositions  
+Multicharacter agents inside the K-operator  
+Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
