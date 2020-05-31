@@ -1,4 +1,5 @@
 import argparse
+from termcolor import colored
 from model import Model
 from expressions import *
 
@@ -174,16 +175,21 @@ def main():
 
         for string in contents:
             # Comments are noted with '#' in the txt file.
+            if len(string) > 0 and string[0] == "#":
+                # Printing comments inside the txt file
+                print(colored(string[1:], "blue"))
+
             string = string.replace(" ", "")
             string = string.replace("\n", "")
-            if len(string) > 1 and string[0] != "#":
+
+            if len(string) > 0 and string[0] != "#":
                 proposition = parse_proposition(string)
                 if valid(model, pointed_state, proposition):
                     turnstile = u'\u22A8'
-                    print(f"(M, {pointed_state}) {turnstile} {string}")
+                    print(colored(f"(M, {pointed_state}) {turnstile} {string}", "green"))
                 else:
                     not_turnstile = u'\u22AD'
-                    print(f"(M, {pointed_state}) {not_turnstile} {string}")
+                    print(colored(f"(M, {pointed_state}) {not_turnstile} {string}", "red"))
                 print("-------------------------")
                 print()
 
@@ -193,11 +199,19 @@ def main():
             contents = f.readlines()
 
         for string in contents:
+            if len(string) > 0 and string[0] == "#":
+                # Printing comments inside the txt file
+                print(colored(string[1:], "blue"))
+
+
             string = string.replace(" ", "")
             string = string.replace("\n", "")
-            if len(string) > 1 and string[0] != "#":
+
+            if len(string) > 0 and string[0] != "#":
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
+                if len(in_worlds) == 0:
+                    print(f"The proposition is not true in every world.")
                 for world in in_worlds:
                     print(f"The proposition is true in world {world}: {model.valuations[str(world)]}.")
                 print("-------------------------")
