@@ -1,7 +1,7 @@
 """
 We got inspiration from the freely available online library boolean.py.
 We tried subclassing BooleanAlgebra from boolean.py, but due to some
-impoty errors, we decided to make our own parser.
+import errors, we decided to make our own parser.
 
 An expression can be represented as a tree structure.
 Our rules here:
@@ -211,12 +211,6 @@ class Expression:
 
 
     def parse(self, string):
-        # If we see a ~ at the start (NOT)
-        # We will add a NOT operator to the list,
-        # But we have to know the argument of NOT
-        # The argument of NOT can then be an atom,
-        # or it can be a sub-expression
-
         expr = None
 
         while len(string) > 0:

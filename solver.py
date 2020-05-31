@@ -100,11 +100,24 @@ def valid(model, pointed_state, proposition):
     elif isinstance(proposition, Box):
         # The announcement deletes some of the states and relations
         # The proposition is valid if the argument is true regardless of the announcement
+        # For [p]q, read after the announcement of p, q is true
+        # This means that q can be true before the announcement
+        # If q is not true before the announcement,
+        # the annnouncement of p implies q 
 
-        # If I understand it correctly, the proposition should thus be valid
-        # if either the announcement is false, or the argument is true
-        # TODO: CONFIRM THAT THIS IS INDEED THE CASE! Correct me on this one!
-        prop_is_valid = not valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
+        if valid(model, pointed_state, proposition.arg1):
+            # If the announcement is valid in pointed_state,
+            # Change the model to reflect the announcement
+            viable_states = model.states.copy()
+            for state in model.states:
+                if not valid(model, state, proposition.arg1):
+                    viable_states.remove(state)
+
+            temp_model = Model.copy(model)
+            temp_model.set_states(viable_states)
+            prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
+        else:
+            prop_is_valid = True
 
     elif isinstance(proposition, Diamond):
         # The announcement deletes some of the states and relations
@@ -171,7 +184,7 @@ def main():
                 else:
                     not_turnstile = u'\u22AD'
                     print(f"(M, {pointed_state}) {not_turnstile} {string}")
-                print()
+                print("-------------------------")
                 print()
 
     # We can also ask where the proposition is valid
@@ -185,7 +198,8 @@ def main():
             if len(string) > 1 and string[0] != "#":
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
-                print(f"The proposition is true in worlds {in_worlds}.")
+                for world in in_worlds:
+                    print(f"The proposition is true in world {world}: {model.valuations[str(world)]}.")
                 print("-------------------------")
                 print()
 

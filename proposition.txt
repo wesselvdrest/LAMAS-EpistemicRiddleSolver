@@ -2,7 +2,9 @@
 #<(p|q|r)>( (K{A}p | K{A}~p) )
 #<(p|q|r)>( (K{B}q | K{B}~q) )
 #<(p|q|r)>( (K{C}r | K{C}~r) )
-<(p|q)><(p|q)>p
+#[(p|q)]r
+#[~(p|q|r)](K{A}p | K{A}~p)
+#[(p|q|r)][((~(K{A}p|K{A}~p)) & (~(K{B}q | K{B}~q)) & (~(K{C}r | K{C}~r)) ) ][((~(K{A}p | K{A}~p)) & (~(K{B}q | K{B}~q)) & (~(K{C}r | K{C}~r)) ) ](p & q & r)
 
 
-<(p|q|r)><((~(K{A}p|K{A}~p)) & (~(K{B}q | K{B}~q)) & (~(K{C}r | K{C}~r)) ) ><((~(K{A}p | K{A}~p)) & (~(K{B}q | K{B}~q)) & (~(K{C}r | K{C}~r)) ) >(p & q & r)
+ [(p|q) & ~r] (K{A}q | K{A}~q)
