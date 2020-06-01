@@ -1,0 +1,7 @@
+# Three cryptographers have gotten dinner and one of them has paid for it, 
+# or the NSA has paid for it. The cryptpographer want to know if the NSA 
+# has paid, but don't want to know if one of the cryptographers has paid,
+# which cryptographer it was.
+
+# The first stage, every two cryptographers establish a shared one-bit secret, for example by a coin toss.
+
