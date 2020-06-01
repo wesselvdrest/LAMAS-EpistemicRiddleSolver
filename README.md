@@ -85,3 +85,4 @@ Multicharacter propositions
 Multicharacter agents inside the K-operator  
 Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
 Common knowledge for subgroups  
+XOR parsing and evaluating  
