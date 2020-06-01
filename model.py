@@ -64,9 +64,9 @@ class Model:
             contents = f.readlines()
             parse_state = "States"
 
-            for c in contents[1:]:
+            for c in contents:
                 c = c.rstrip("\n")
-                if c == "":
+                if c == "" or '#' in c or c == "States:":
                     continue
 
                 if parse_state == "States":
