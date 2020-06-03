@@ -3,5 +3,9 @@
 # has paid, but don't want to know if one of the cryptographers has paid,
 # which cryptographer it was.
 
-# The first stage, every two cryptographers establish a shared one-bit secret, for example by a coin toss.
+# In the first stage, every two cryptographers establish a shared one-bit secret.
+# if one cryptographer has two one-bit secret 
+[~(p&q) & ~(q&r) & ~(p&r)] 
 
+
+(OR(s, t) & ~AND(s, t))
