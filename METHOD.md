@@ -37,14 +37,14 @@ The above example contains the Kripke structure for the Muddy Children riddle wi
 Once the model is defined and parsed correctly, the propositions are parsed and converted to a data structure that is easy to evaluate. The user can input a plaintext file with propositions on a single line. The following operators are supported:
 
 ```bash
-* ̃  for NOT
-* & for AND
-* | for OR
-* K{A} for agent A knows that
-* C for common knowledge
-* ( and ) to denote scope
-* [ and ] for weak public announcements
-* 〈 and 〉for strong public announcements
+- ̃  for NOT
+- & for AND
+- | for OR
+- K{A} for agent A knows that
+- C for common knowledge
+- ( and ) to denote scope
+- [ and ] for weak public announcements
+- 〈 and 〉for strong public announcements
 ```
 
 Furthermore, a propositional atom should always be a lowercase letter.The propositions are parsed from left to right.  A proposition is an expression,  which can consist of sub-expressions that can in turn consist of subsub-expressions et cetera.  This can be represented as a tree structure.If an atom is encountered (e.g.p), the expression is equal to Atom(p).  When an operator of degree 1 (i.e.   ̃,K{A}, C, ’(’, ’[’ or ’〈’) is encountered, the algorithm will parse the sub-expression to the right of the operatorand return an expression which applies that operator to the parsed sub-expression.  Should an operator of degree2 be encountered (i.e.  & or|) the algorithm will parse the sub-expression to the right of the operator and returnthe operator applied on the expression that was already parsed (on the left of the operator), plus the newlyparsed sub-expression to the right of the operator.
