@@ -12,7 +12,7 @@ After all states have been specified, the following line should be equal to ``Va
 After all valuations have been specified, the following line should be equal to ``Relations:". The final lines in the file should hold information about each agent (single letter) and the set of relations those agents have.
 
 The structure of the plaintext file is best shown with an example:
-
+```bash
 States:
 0
 1
@@ -28,6 +28,7 @@ Valuations:
 Relations:
 A: (0 1), (2 3)
 B: (0 2), (1 3)
+```
 
 The above example contains the Kripke structure for the Muddy Children riddle with 2 children. The `!' behind state 3 denotes that state 3 is the real state, i.e. the pointed model becomes $(M, 3)$. Only one state can be denoted as the true state. If more states are denoted as the true state, the program will raise an error.
 
