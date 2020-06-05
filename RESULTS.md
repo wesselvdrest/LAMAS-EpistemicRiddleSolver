@@ -100,7 +100,7 @@ Box[AND(K{A}(OR(AND(p, x), AND(r, x))), K{B}(OR(AND(r, v), AND(r, x))))](AND(K{A
 ```
 --------------------------------------------------------------------------------------------------------------------
 
-Albert anounces that he does not know cheryls birthday and he knows that Bernard does not know it
+Albert announces that he does not know cheryls birthday and he knows that Bernard does not know it
 
 ```plain
 <K{A}(p&x|r&x)&K{A}K{B}(r&v|r&x)>[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
@@ -111,7 +111,7 @@ Diamond<AND(K{A}(AND(p, OR(x, AND(r, x)))), K{A}(K{B}(AND(r, OR(v, AND(r, x)))))
 ```
 -----------------------------------------------------------------------------------------------------------------
 
-Albert and Bernard both anounce that they know cheryls birthday, do they know her birthday now?
+Albert and Bernard both announce that they know cheryls birthday, do they know her birthday now?
 
 ```plain
 <K{A}(r&x)&K{B}(r&x)>[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)](K{A}(r&x)&K{B}(r&x))
