@@ -1,88 +1,115 @@
-# LAMAS Project
+# Results
 
-## Dependencies
-We are using the termcolor library. Install this library with the following command:  
-```bash
-pip3 install termcolor
-```
+The following shows the output of our solver for the three riddles that were given as examples in the introduction. Per riddle every part seperated by the lines sequentially represents a time in the riddle where a different amount of information is available. The last part for every riddle thus represents the moment where all the information from the riddle is given.
 
-## Usage of the program
-To see whether a given proposition is valid in a given Kripke model, run:  
-```bash
-python3 solver.py -m model_file -v proposition_file
-```
-To see where a given proposition holds in the given Kripke model, run:
-```bash
-python3 solver.py -m model_file -w proposition_file
-```
+## Muddy Children
 
+Do any of the children know whether they are muddy?
 
-## Format of Kripke model
-For now, the Kripke model should be defined in a .txt file. We might change this to JSON later if we want and have time left. A model file should follow the format of the following example:  
-```bash
-States:
-0
-1
-2
-3
-4
-5
-6
-7!
+K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r
 
-Valuations:
-0:
-1: p
-2: q
-3: r
-4: p q
-5: q r
-6: p r
-7: p q r
+OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r)))))))
 
-Relations:
-A: (0 1), (2 4), (3 6), (5 7)
-B: (0 2), (3 5), (1 4), (6 7)
-C: (0 3), (4 7), (2 5), (1 6)
-```
-Here, the ! behind a state number means that is the true world.
+(M, 7) ⊭ K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r
 
-## Format of propositions
-The operators that can be used are:  
-& for AND  
-| for OR  
-~ for NOT  
-C for Common Knowledge  
-K{A} for agent A knows that  
-<> for some truthful public announcement  
-[] for every truthful public announcement  
-And of course the parentheses can be used to denote scope ( )  
+---------------------------------------------------------------------------------------
+
+After the first announcement that at least one child is muddy. Do any of the children know whether they are muddy?
+
+<p|q|r>(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
+
+Diamond<OR(p, OR(q, r))>(OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r))))))))
+
+(M, 7) ⊭ <p|q|r>(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
+
+-------------------------------------------------------------------------------------------------------------------
+
+No one has stepped forward yet, which can be represented as an announcement. After the second announcement that at least one child is muddy, do any of the children know whether they are muddy?
+
+[(p|q|r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)](K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
+
+Box[OR(p, OR(q, r))](Box[NOT(OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r))))))))](OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r)))))))))
+
+(M, 7) ⊭ [(p|q|r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)](K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
+
+--------------------------------------------------------------------------------------------------------------------
+
+No one has stepped forward yet, which can be represented as an announcement. After the third announcement that at least one child is muddy, do any of the children know whether they are muddy?
+
+[(p|q|r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)](K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
+
+Box[OR(p, OR(q, r))](Box[NOT(OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r))))))))](Box[NOT(OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r))))))))](OR(K{A}(p), OR(K{A}(NOT(p)), OR(K{B}(q), OR(K{B}(NOT(q)), OR(K{C}(r), K{C}(NOT(r))))))))))
+
+(M, 7) ⊨ [(p|q|r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)][~(K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)](K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r)
 
 
-The following are all valid ways of writing propositions:  
-```bash
-~(p & q) | ~r & s  
-~(p & q) & r  
-Cp  
-~Cp  
-~C~p  
-C~p  
-K{A}p  
-~K{A}p  
-~K{A}~p  
-~K{A}p & Cp  
-<p>q  
-[p]q  
-[p & q]r  
-[p&q](r & q)  
-[p&q]r & q  
-p | <q>r  
-```
+## Drinking Logicians
 
-## Possible extensions to the program
-Parsing:  
-Multicharacter propositions  
-Multicharacter agents inside the K-operator  
-Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
-Common knowledge for subgroups  
-XOR parsing and evaluating  
+After the barman has asked whether everybody wants a drink, and after agent A announces he does not know whether everybody wants a drink, is it common knowledge that agent A wants a drink?
+
+[~(K{A}(p&q&r)|K{A}~(p&q&r))]Cp
+
+Box[NOT(OR(K{A}(AND(p, AND(q, r))), K{A}(NOT(AND(p, AND(q, r))))))](C(p))
+
+(M, 7) ⊨ [~(K{A}(p&q&r)|K{A}~(p&q&r))]Cp
+
+------------------------------------------------------------------------------------------------------------
+
+After the barman has asked whether everybody wants a drink, and after agent A and agent B announce that they do not know whether everybody wants a drink, does agent C know whether everybody wants a drink?
+
+[~(K{A}(p&q&r)|K{A}~(p&q&r))&~(K{B}(p&q&r)|K{B}~(p&q&r))]K{C}(p&q&r)
+
+Box[AND(NOT(OR(K{A}(AND(p, AND(q, r))), K{A}(NOT(AND(p, AND(q, r)))))), NOT(OR(K{B}(AND(p, AND(q, r))), K{B}(NOT(AND(p, AND(q, r)))))))](K{C}(AND(p, AND(q, r))))
+
+(M, 7) ⊨ [~(K{A}(p&q&r)|K{A}~(p&q&r))&~(K{B}(p&q&r)|K{B}~(p&q&r))]K{C}(p&q&r)
+
+
+## Cheryl's Birthday
+
+Does anyone know Cheryls birthday?
+
+K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)|K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
+
+OR(K{A}(AND(p, x)), OR(K{A}(AND(p, y)), OR(K{A}(AND(q, v)), OR(K{A}(AND(q, y)), OR(K{A}(AND(r, v)), OR(K{A}(AND(r, x)), OR(K{A}(AND(s, w)), OR(K{A}(AND(s, y)), OR(K{A}(AND(t, w)), OR(K{A}(AND(u, v)), OR(K{B}(AND(p, x)), OR(K{B}(AND(p, y)), OR(K{B}(AND(q, v)), OR(K{B}(AND(q, y)), OR(K{B}(AND(r, v)), OR(K{B}(AND(r, x)), OR(K{B}(AND(s, w)), OR(K{B}(AND(s, y)), OR(K{B}(AND(t, w)), K{B}(AND(u, v)))))))))))))))))))))
+
+(M, 5) ⊭ K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)|K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
+
+---------------------------------------------------------------------------------------------------------------------
+
+Cheryl tells Albert that the month of her birthday is july and Bernard that the day of her birthday is 16
+
+[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+
+Box[AND(K{A}(OR(AND(p, x), AND(r, x))), K{B}(OR(AND(r, v), AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x))))
+
+(M, 5) ⊨ [K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+
+--------------------------------------------------------------------------------------------------------------------
+
+Albert anounces that he does not know cheryls birthday and he knows that Bernard does not know it
+
+<K{A}(p&x|r&x)&K{A}K{B}(r&v|r&x)>[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+
+Diamond<AND(K{A}(AND(p, OR(x, AND(r, x)))), K{A}(K{B}(AND(r, OR(v, AND(r, x))))))>(Box[AND(K{A}(OR(AND(p, x), AND(r, x))), K{B}(OR(AND(r, v), AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x)))))
+
+(M, 5) ⊭ <K{A}(p&x|r&x)&K{A}K{B}(r&v|r&x)>[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+
+-----------------------------------------------------------------------------------------------------------------
+
+Albert and Bernard both anounce that they know cheryls birthday, do they know her birthday now?
+
+<K{A}(r&x)&K{B}(r&x)>[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)](K{A}(r&x)&K{B}(r&x))
+
+Diamond<AND(K{A}(AND(r, x)), K{B}(AND(r, x)))>(Box[AND(K{A}(AND(r, x)), AND(K{A}(K{B}(AND(r, x))), K{B}(AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x)))))
+
+(M, 5) ⊭ <K{A}(r&x)&K{B}(r&x)>[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)](K{A}(r&x)&K{B}(r&x))
+
+-----------------------------------------------------------------------------------------------------------------------
+
+After all the announcements do both Albert and Bernard know Cheryls birthday?
+
+[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)&K{B}K{A}(r&x)](K{A}(r&x)&K{B}(r&x))
+
+Box[AND(K{A}(AND(r, x)), AND(K{A}(K{B}(AND(r, x))), AND(K{B}(AND(r, x)), K{B}(K{A}(AND(r, x))))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x))))
+
+(M, 5) ⊨ [K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)&K{B}K{A}(r&x)](K{A}(r&x)&K{B}(r&x))

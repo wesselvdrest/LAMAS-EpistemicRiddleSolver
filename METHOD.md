@@ -1,88 +1,85 @@
-# LAMAS Project
+# Methods
 
-## Dependencies
-We are using the termcolor library. Install this library with the following command:  
-```bash
-pip3 install termcolor
-```
+The goal of the program is to evaluate given propositions in given Kripke models. To this end, the first part of the program parses a file with the given Kripke model. Then, another file with the given propositions is parsed, such that we end up with a data structure which is easy to perform evaluation on. The last step of the algorithm is evaluating the propositions in the given Kripke model.
+The program then outputs a string that holds information about whether the given proposition holds in the given pointed Kripke model, or about in which states within the model the given proposition holds. The user is able to choose between these two options.
 
-## Usage of the program
-To see whether a given proposition is valid in a given Kripke model, run:  
-```bash
-python3 solver.py -m model_file -v proposition_file
-```
-To see where a given proposition holds in the given Kripke model, run:
-```bash
-python3 solver.py -m model_file -w proposition_file
-```
+## Parsing Models
 
+The user is expected to input a plaintext file containing the states, valuations and relations of the given Kripke model. There is also an expected format the plaintext file should follow. The first line of the file should be equal to ``States:". The lines following this should denote the integer indices of the states, e.g. 0, 1, 2, et cetera.
 
-## Format of Kripke model
-For now, the Kripke model should be defined in a .txt file. We might change this to JSON later if we want and have time left. A model file should follow the format of the following example:  
-```bash
+After all states have been specified, the following line should be equal to ``Valuations:". The following lines specify the valuations in each state.
+
+After all valuations have been specified, the following line should be equal to ``Relations:". The final lines in the file should hold information about each agent (single letter) and the set of relations those agents have.
+
+The structure of the plaintext file is best shown with an example:
+
 States:
 0
 1
 2
-3
-4
-5
-6
-7!
+3!
 
 Valuations:
 0:
 1: p
 2: q
-3: r
-4: p q
-5: q r
-6: p r
-7: p q r
+3: p q
 
 Relations:
-A: (0 1), (2 4), (3 6), (5 7)
-B: (0 2), (3 5), (1 4), (6 7)
-C: (0 3), (4 7), (2 5), (1 6)
-```
-Here, the ! behind a state number means that is the true world.
+A: (0 1), (2 3)
+B: (0 2), (1 3)
 
-## Format of propositions
-The operators that can be used are:  
-& for AND  
-| for OR  
-~ for NOT  
-C for Common Knowledge  
-K{A} for agent A knows that  
-<> for some truthful public announcement  
-[] for every truthful public announcement  
-And of course the parentheses can be used to denote scope ( )  
+The above example contains the Kripke structure for the Muddy Children riddle with 2 children. The `!' behind state 3 denotes that state 3 is the real state, i.e. the pointed model becomes $(M, 3)$. Only one state can be denoted as the true state. If more states are denoted as the true state, the program will raise an error.
+
+## Parsing Propositions
+
+Once the model is defined and parsed correctly, the propositions are parsed and converted to a data structure that is easy to evaluate. The user can input a plaintext file with propositions on a single line. The following operators are supported:
+
+• ̃  for NOT
+• & for AND
+• | for OR
+• K{A} for agent A knows that
+• C for common knowledge
+• ( and ) to denote scope
+• [ and ] for weak public announcements
+• 〈 and 〉for strong public announcements
+
+Furthermore, a propositional atom should always be a lowercase letter.The propositions are parsed from left to right.  A proposition is an expression,  which can consist of sub-expressions that can in turn consist of subsub-expressions et cetera.  This can be represented as a tree structure.If an atom is encountered (e.g.p), the expression is equal to Atom(p).  When an operator of degree 1 (i.e.   ̃,K{A}, C, ’(’, ’[’ or ’〈’) is encountered, the algorithm will parse the sub-expression to the right of the operatorand return an expression which applies that operator to the parsed sub-expression.  Should an operator of degree2 be encountered (i.e.  & or|) the algorithm will parse the sub-expression to the right of the operator and returnthe operator applied on the expression that was already parsed (on the left of the operator), plus the newlyparsed sub-expression to the right of the operator.
+
+## Evaluating Propositions
+
+We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:
+
+(M,s)|=p	iff 	s∈Vp
+(M,s)|=¬φ	iff	(M,s)6|=φ
+(M,s)|=φ∧ψ	iff	(M,s)|=φand (M,s)|=ψ
+(M,s)|=KAφ	iff 	for all t∈S: (s,t)∈RA implies (M,t)|=φ
+(M,s)|=Cφ	iff	for all t∈S: (s,t)∈R1∪...∪Rm implies (M,t)|=φ
+(M,s)|= [φ]ψ	iff	(M,s)|=φ implies (M|φ,s)|=ψ
+
+where M|φ is  defined  as  the  subset  ofMsuch  that φ is  valid  in  all  its  states.   This  is  equivalent  to  prun-ing  the  model  of  the  states  where φ is  invalid,  followed  by  the  deletion  of  the  valuations  and  relations  thatmention those states. Now,  evaluating  whether  a  given  expression  is  valid  in  a  pointed  model  (M,s)  is  a  matter  of  recursively evaluating  all  sub-expressions  in  that  pointed  model.   For  example,  if  we  were  to  evaluate  the  expression (M,s)|=¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
 
 
-The following are all valid ways of writing propositions:  
-```bash
-~(p & q) | ~r & s  
-~(p & q) & r  
-Cp  
-~Cp  
-~C~p  
-C~p  
-K{A}p  
-~K{A}p  
-~K{A}~p  
-~K{A}p & Cp  
-<p>q  
-[p]q  
-[p & q]r  
-[p&q](r & q)  
-[p&q]r & q  
-p | <q>r  
-```
 
-## Possible extensions to the program
-Parsing:  
-Multicharacter propositions  
-Multicharacter agents inside the K-operator  
-Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
-Common knowledge for subgroups  
-XOR parsing and evaluating  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

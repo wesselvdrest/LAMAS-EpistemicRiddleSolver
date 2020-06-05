@@ -1,88 +1,14 @@
-# LAMAS Project
+# Introduction
+For our Logical Aspects of Multi-agent Systems project we wanted to make a riddle solver. Making a program that is able to solve all possible riddles thrown at it would be very cool but probably a bit too ambitious for this assignment. That is why we chose to focus on riddles that relate to the operators found in Kripke logic that can be expressed using Kripke models. In general in these riddles the knowledge of agents is represented in world states in a Kripke model and the amount of possible states will be reduced as more information is made known to the agents. Where the human observer of such a riddle would most likely not be immediately able to understand the reasoning behind the solution to such a riddle our solver is able to analyze a proposition that contains none, some or all the sequentially added information given to the agents throughout the riddle. And when all the possible information of a riddle is put into a proposition the solver will analyze it as valid in the model of the riddle. But more detail on this will follow in the method.
 
-## Dependencies
-We are using the termcolor library. Install this library with the following command:  
-```bash
-pip3 install termcolor
-```
+## Example Riddles
+### Muddy Children
+A father takes his three perfectly logically thinking children to the park. The children go and play until it is time to go and the father calls them back to him. He sees that two of the children have mud on their foreheads. The father then says, "At least one of you has mud on your forehead", followed by, "If you know you have mud on your forehead step forward". No child steps forward. The father then repeats his question, "If you know you have mud on your forehead step forward". This time the two children with mud on their forehead step forward. 
 
-## Usage of the program
-To see whether a given proposition is valid in a given Kripke model, run:  
-```bash
-python3 solver.py -m model_file -v proposition_file
-```
-To see where a given proposition holds in the given Kripke model, run:
-```bash
-python3 solver.py -m model_file -w proposition_file
-```
+### Drinking Logicians
+Three logicians walk into a bar to have a drink. The bartender asks the logicians, "Do all of you want a drink?". The first logician replies with, "I don't know". The second logician replies with, "I don't know". Then the third logician replies to the bartender, "Yes!".
+
+### Cheryl's Birthday
+Albert and Bernard both want to know Cheryl's birthday. Cheryl's does not want to make it too easy for them and gives them a list of options that could be her birthday, the list of possibilities is as follows: May 15, May 16, May 19, June 17, June 18, July 14, July 16, Aug 14, Aug 15, Aug 17. She then whispers in Albert's ear the month of her birthday and in Bernard's ear the date. Albert then announces, "I do not know Cheryl's birthday but I know that Bernard does not know either". Bernard now announces, "At first I did not know Cheryl's birthday but now I know!". To which Albert replies, "Then I know her birthday as well!". And they both state at the same time that Cheryl's birthday is July 16. 
 
 
-## Format of Kripke model
-For now, the Kripke model should be defined in a .txt file. We might change this to JSON later if we want and have time left. A model file should follow the format of the following example:  
-```bash
-States:
-0
-1
-2
-3
-4
-5
-6
-7!
-
-Valuations:
-0:
-1: p
-2: q
-3: r
-4: p q
-5: q r
-6: p r
-7: p q r
-
-Relations:
-A: (0 1), (2 4), (3 6), (5 7)
-B: (0 2), (3 5), (1 4), (6 7)
-C: (0 3), (4 7), (2 5), (1 6)
-```
-Here, the ! behind a state number means that is the true world.
-
-## Format of propositions
-The operators that can be used are:  
-& for AND  
-| for OR  
-~ for NOT  
-C for Common Knowledge  
-K{A} for agent A knows that  
-<> for some truthful public announcement  
-[] for every truthful public announcement  
-And of course the parentheses can be used to denote scope ( )  
-
-
-The following are all valid ways of writing propositions:  
-```bash
-~(p & q) | ~r & s  
-~(p & q) & r  
-Cp  
-~Cp  
-~C~p  
-C~p  
-K{A}p  
-~K{A}p  
-~K{A}~p  
-~K{A}p & Cp  
-<p>q  
-[p]q  
-[p & q]r  
-[p&q](r & q)  
-[p&q]r & q  
-p | <q>r  
-```
-
-## Possible extensions to the program
-Parsing:  
-Multicharacter propositions  
-Multicharacter agents inside the K-operator  
-Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
-Common knowledge for subgroups  
-XOR parsing and evaluating  
