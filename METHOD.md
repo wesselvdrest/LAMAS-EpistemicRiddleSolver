@@ -53,7 +53,7 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 We make use of the semantics definition as defined in the book Dynamic Epistemic Logic by van Ditmarsch, van der Hoek and Kooi. Namely, if there are m agents and the model is defined as M =〈S,Vp,R1...Rm〉, where S is the set of states, Vp is the set of valuations at each state and R1 to Rm are the sets of relations for each agent, then:  
 (M,s)⊨p	    iff s∈V<sub>p</sub>  
-(M,s)⊨¬φ	iff	(M,s)&#22A8φ  
+(M,s)⊨¬φ	iff	(M,s) &#22A8; φ  
 (M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ  
 (M,s)⊨K<sub>A</sub>φ	iff for all t∈S: (s,t)∈R<sub>A</sub> implies (M,t)⊨φ  
 (M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t)⊨φ  
