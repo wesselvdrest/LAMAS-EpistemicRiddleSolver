@@ -37,13 +37,13 @@ The above example contains the Kripke structure for the Muddy Children riddle wi
 Once the model is defined and parsed correctly, the propositions are parsed and converted to a data structure that is easy to evaluate. The user can input a plaintext file with propositions on a single line. The following operators are supported:
 
 ```plain
-̃  for NOT
-& for AND
-| for OR
-K{A} for agent A knows that
-C for common knowledge
-( and ) to denote scope
-[ and ] for weak public announcements
+ ~ for NOT
+ & for AND
+ | for OR
+ K{A} for agent A knows that
+ C for common knowledge
+ ( and ) to denote scope
+ [ and ] for weak public announcements
 〈 and 〉for strong public announcements
 ```
 
@@ -53,12 +53,12 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:
 
-```plain
-(M,s)⊨p	    iff s∈Vp
-(M,s)⊨¬φ	iff	(M,s)6⊨φ
+```
+(M,s)⊨p	    iff s∈V<sub>p</sub>
+(M,s)⊨¬φ	iff	(M,s)&22A8φ
 (M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ
-(M,s)⊨K_Aφ	iff for all t∈S: (s,t)∈R_A implies (M,t)⊨φ
-(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R_1 ∪ ... ∪ R_m implies (M,t)⊨φ
+(M,s)⊨K<sub>A</sub>φ	iff for all t∈S: (s,t)∈R<sub>A</sub> implies (M,t)⊨φ
+(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t)⊨φ
 (M,s)⊨ [φ]ψ	iff	(M,s)⊨φ implies (M|φ,s)⊨ψ
 ```
 
