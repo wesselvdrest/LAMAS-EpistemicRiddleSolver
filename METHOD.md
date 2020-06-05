@@ -51,12 +51,12 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 ## Evaluating Propositions
 
-We make use of the semantics definition as defined in the book Dynamic Epistemic Logic by van Ditmarsch, van der Hoek and Kooi. Namely, if there are m agents and the model is defined as M =〈S,Vp,R1...Rm〉, where S is the set of states, V<sub>p</sub> is the set of valuations at each state and R<sub>1</sub> to R<sub>m</sub> are the sets of relations for each agent, then:  
+We make use of the semantics definition as defined in the book Dynamic Epistemic Logic by van Ditmarsch, van der Hoek and Kooi. Namely, if there are m agents and the model is defined as M =〈S, V<sub>p</sub>, R<sub>1</sub> ... R<sub>m</sub>〉, where S is the set of states, V<sub>p</sub> is the set of valuations at each state and R<sub>1</sub> to R<sub>m</sub> are the sets of relations for each agent, then:  
     
 (M,s) ⊨ p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iff s ∈ V<sub>p</sub>  
-(M,s) ⊨ ¬φ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iff    (M,s) &nvDash; φ  
+(M,s) ⊨ ¬φ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iff    (M,s) &nvDash; φ  
 (M,s) ⊨ φ ∧ ψ&nbsp; iff (M,s) ⊨ φ and (M,s) ⊨ ψ  
-(M,s) ⊨ K<sub>A</sub>&nbsp;&nbsp;&nbsp;   iff for all t ∈ S: (s,t) ∈ R<sub>A</sub> implies (M,t) ⊨ φ  
+(M,s) ⊨ K<sub>A</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   iff for all t ∈ S: (s,t) ∈ R<sub>A</sub> implies (M,t) ⊨ φ  
 (M,s) ⊨ Cφ &nbsp;&nbsp; &nbsp;&nbsp;iff for all t ∈ S: (s,t) ∈ R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t) ⊨ φ  
 (M,s) ⊨ [φ]ψ &nbsp;&nbsp;&nbsp;iff  (M,s) ⊨ φ implies (M|φ,s) ⊨ ψ  
 
