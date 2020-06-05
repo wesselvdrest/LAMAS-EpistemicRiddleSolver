@@ -1,88 +1,77 @@
-# LAMAS Project
+# Analysis
 
-## Dependencies
-We are using the termcolor library. Install this library with the following command:  
-```bash
-pip3 install termcolor
-```
+This section will show the 'on paper' analysis of the muddy children riddle with three children who are all muddy. 
 
-## Usage of the program
-To see whether a given proposition is valid in a given Kripke model, run:  
-```bash
-python3 solver.py -m model_file -v proposition_file
-```
-To see where a given proposition holds in the given Kripke model, run:
-```bash
-python3 solver.py -m model_file -w proposition_file
-```
+There are three children: Alice, Bob and Carol. 
 
+The propositions p, q and r stand for:
+p = Alice is muddy
+q = Bob is muddy
+r = Carol is muddy
 
-## Format of Kripke model
-For now, the Kripke model should be defined in a .txt file. We might change this to JSON later if we want and have time left. A model file should follow the format of the following example:  
-```bash
-States:
-0
-1
-2
-3
-4
-5
-6
-7!
+The first proposition states whether any of the children know they are muddy at the start of the riddle:
 
-Valuations:
-0:
-1: p
-2: q
-3: r
-4: p q
-5: q r
-6: p r
-7: p q r
+K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r
 
-Relations:
-A: (0 1), (2 4), (3 6), (5 7)
-B: (0 2), (3 5), (1 4), (6 7)
-C: (0 3), (4 7), (2 5), (1 6)
-```
-Here, the ! behind a state number means that is the true world.
-
-## Format of propositions
-The operators that can be used are:  
-& for AND  
-| for OR  
-~ for NOT  
-C for Common Knowledge  
-K{A} for agent A knows that  
-<> for some truthful public announcement  
-[] for every truthful public announcement  
-And of course the parentheses can be used to denote scope ( )  
+Looking at the model at this point (seen below) we can analyze K{A}p for example:
 
 
-The following are all valid ways of writing propositions:  
-```bash
-~(p & q) | ~r & s  
-~(p & q) & r  
-Cp  
-~Cp  
-~C~p  
-C~p  
-K{A}p  
-~K{A}p  
-~K{A}~p  
-~K{A}p & Cp  
-<p>q  
-[p]q  
-[p & q]r  
-[p&q](r & q)  
-[p&q]r & q  
-p | <q>r  
-```
+			INSERT MODEL
 
-## Possible extensions to the program
-Parsing:  
-Multicharacter propositions  
-Multicharacter agents inside the K-operator  
-Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
-Common knowledge for subgroups  
-XOR parsing and evaluating  
+
+ M |= K{A}p    	⇔ 
+ p must be true in all worlds connected by the A relation
+ π(w_1)(p) = f
+ So K{A}p is not valid in the given model.
+ 
+Repeating this for all atoms given in the first proposition shows they are all not valid in the current model.
+
+------------------------------------------------------------------------------------------------------------------
+
+The second proposition states that after the first announcement that at least one child is muddy. Do any of the children know whether they are muddy?
+
+<p | q | r>(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
+
+The new model is shown below
+
+
+			INSERT MODEL 2
+
+
+After this announcement w_0 is removed as possibility but the atoms in the proposition are still all invalid as shown for the first proposition.
+
+-----------------------------------------------------------------------------------------------------------------
+
+The third proposition states that since no one has stepped forward yet, which can be represented as an announcement. After the second announcement that at least one child is muddy, do any of the children know whether they are muddy?
+
+[(p | q | r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)](K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
+
+It is now necessary that at least one child is muddy and that none of the children after the first announcement know whether they are muddy. Image that only one child was muddy, this child would have stepped forward after the first announcement as it could see the other two children not being muddy in combination with at least one child being muddy would make this child step forward. This is known to all the children thus the model changes and can be seen below:
+
+
+			INSERT MODEL 3
+
+
+At this point no child is still sure about their own muddyness since there are still 4 worlds left which still makes all atoms in the proposition invalid.
+
+--------------------------------------------------------------------------------------------------------------------
+
+The fourth proposition is states that no one has stepped forward yet, which can be represented as an announcement. After the third announcement that at least one child is muddy, do any of the children know whether they are muddy?
+
+[(p | q | r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)](K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
+
+Now three more worlds disappear which means that only w_7 is possible.
+
+
+			INSERT MODEL 4
+
+
+ M |= K{A}p, K{B}q, K{C}r    	⇔
+ p, q and r must be true all worlds connected respectively by relations A, B and C.
+ π(w_7)(p) = t,  π(w_7)(q) = t, π(w_7)(r) = t
+ Thus the whole proposition is true.
+ 
+
+
+
+ 
