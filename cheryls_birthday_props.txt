@@ -1,0 +1,15 @@
+# Does anyone know Cheryls birthday?
+K{A}(p & x) | K{A}(p & y) | K{A}(q & v) | K{A}(q & y) | K{A}(r & v) | K{A}(r & x) | K{A}(s & w) | K{A}(s & y) | K{A}(t & w) | K{A}(u & v) | K{B}(p & x) | K{B}(p & y) | K{B}(q & v) | K{B}(q & y) | K{B}(r & v) | K{B}(r & x) | K{B}(s & w) | K{B}(s & y) | K{B}(t & w) | K{B}(u & v)
+
+# Cheryl tells Albert that the month of her birthday is july and Bernard that the day of her birthday is 16 
+[K{A}((p & x) | (r & x)) & K{B}((r & v) | (r & x))](K{A}(r & x) & K{B}(r & x))
+
+#Albert anounces that he does not know cheryls birthday and he knows that Bernard does not know it
+<K{A}(p & x | r & x) & K{A}K{B}(r & v | r & x)>[K{A}((p & x) | (r & x)) & K{B}((r & v) | (r & x))](K{A}(r & x) & K{B}(r & x))
+
+#Albert and Bernard both anounce that they know cheryls birthday, do they know her birthday now?
+<K{A}(r & x) & K{B}(r & x)>[K{A}(r & x) & K{A}K{B}(r & x) & K{B}(r & x)](K{A}(r & x) & K{B}(r & x))
+
+#After all the announcements do both Albert and Bernard know Cheryls birthday?
+[K{A}(r & x) & K{A}K{B}(r & x) & K{B}(r & x) & K{B}K{A}(r & x)](K{A}(r & x) & K{B}(r & x))
+
