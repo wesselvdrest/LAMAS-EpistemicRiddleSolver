@@ -72,6 +72,10 @@
     .content {
         margin-left: 18rem !important;
     }
+
+    .logo {
+        max-height: none !important;
+    }
   }
   
   /* Sidebar links */
@@ -549,6 +553,9 @@
     margin-right: auto;
   }
   
+  .logo {
+      max-height: 200px;
+  }
   
   /*
    * Masthead
