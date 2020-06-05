@@ -549,6 +549,10 @@
     margin-right: auto;
   }
   
+
+  .lead .markdown-body {
+      color: white;
+  }
   
   /*
    * Masthead
