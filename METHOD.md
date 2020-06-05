@@ -12,7 +12,7 @@ After all states have been specified, the following line should be equal to "Val
 After all valuations have been specified, the following line should be equal to "Relations:". The final lines in the file should hold information about each agent (single letter) and the set of relations those agents have.
 
 The structure of the plaintext file is best shown with an example:
-```bash
+```plain
 States:
 0
 1
@@ -36,7 +36,7 @@ The above example contains the Kripke structure for the Muddy Children riddle wi
 
 Once the model is defined and parsed correctly, the propositions are parsed and converted to a data structure that is easy to evaluate. The user can input a plaintext file with propositions on a single line. The following operators are supported:
 
-```bash
+```plain
 - ̃  for NOT
 - & for AND
 - | for OR
@@ -53,12 +53,12 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:
 
-```bash
-(M,s)⊨p	iff 	s∈Vp
+```plain
+(M,s)⊨p	    iff s∈Vp
 (M,s)⊨¬φ	iff	(M,s)6⊨φ
-(M,s)⊨φ∧ψ	iff	(M,s)⊨φand (M,s)⊨ψ
-(M,s)⊨KAφ	iff 	for all t∈S: (s,t)∈RA implies (M,t)⊨φ
-(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R1∪...∪Rm implies (M,t)⊨φ
+(M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ
+(M,s)⊨K_Aφ	iff for all t∈S: (s,t)∈R_A implies (M,t)⊨φ
+(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R_1 ∪ ... ∪ R_m implies (M,t)⊨φ
 (M,s)⊨ [φ]ψ	iff	(M,s)⊨φ implies (M|φ,s)⊨ψ
 ```
 

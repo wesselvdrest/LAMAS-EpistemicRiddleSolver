@@ -9,17 +9,16 @@ pip3 install termcolor
 ## Usage of the program
 To see whether a given proposition is valid in a given Kripke model, run:  
 ```bash
-python3 solver.py -m model_file -v proposition_file
+python3 Code/solver.py -m <Models/model_file> -v <Propositions/proposition_file>
 ```
 To see where a given proposition holds in the given Kripke model, run:
 ```bash
-python3 solver.py -m model_file -w proposition_file
+python3 Code/solver.py -m <Models/model_file> -w <Propositions/proposition_file>
 ```
-
 
 ## Format of Kripke model
 For now, the Kripke model should be defined in a .txt file. We might change this to JSON later if we want and have time left. A model file should follow the format of the following example:  
-```bash
+```plain
 States:
 0
 1
@@ -60,7 +59,7 @@ And of course the parentheses can be used to denote scope ( )
 
 
 The following are all valid ways of writing propositions:  
-```bash
+```plain
 ~(p & q) | ~r & s  
 ~(p & q) & r  
 Cp  
