@@ -47,20 +47,20 @@ Once the model is defined and parsed correctly, the propositions are parsed and 
 〈 and 〉for strong public announcements
 ```
 
-Furthermore, a propositional atom should always be a lowercase letter.The propositions are parsed from left to right.  A proposition is an expression,  which can consist of sub-expressions that can in turn consist of subsub-expressions et cetera.  This can be represented as a tree structure.If an atom is encountered (e.g.p), the expression is equal to Atom(p).  When an operator of degree 1 (i.e.   ̃,K{A}, C, ’(’, ’[’ or ’〈’) is encountered, the algorithm will parse the sub-expression to the right of the operatorand return an expression which applies that operator to the parsed sub-expression.  Should an operator of degree2 be encountered (i.e.  & or|) the algorithm will parse the sub-expression to the right of the operator and returnthe operator applied on the expression that was already parsed (on the left of the operator), plus the newlyparsed sub-expression to the right of the operator.
+Furthermore, a propositional atom should always be a lowercase letter.The propositions are parsed from left to right.  A proposition is an expression,  which can consist of sub-expressions that can in turn consist of subsub-expressions et cetera.  This can be represented as a tree structure.If an atom is encountered (e.g. p), the expression is equal to Atom(p).  When an operator of degree 1 (i.e. \~, K{A}, C, ’(’, ’[’ or ’〈’) is encountered, the algorithm will parse the sub-expression to the right of the operatorand return an expression which applies that operator to the parsed sub-expression.  Should an operator of degree 2 be encountered (i.e. & or |) the algorithm will parse the sub-expression to the right of the operator and return the operator applied on the expression that was already parsed (on the left of the operator), plus the newly parsed sub-expression to the right of the operator.
 
 ## Evaluating Propositions
 
-We make use of the semantics definition as defined in the book Dynamic Epistemic Logic by van Ditmarsch, van der Hoek and Kooi. Namely, if there are m agents and the model is defined as M =〈S,Vp,R1...Rm〉, where S is the set of states, Vp is the set of valuations at each state and R1 to Rm are the sets of relations for each agent, then:  
-(M,s)⊨p	    iff s∈V<sub>p</sub>  
-(M,s)⊨¬φ	iff	(M,s) &#22A8; φ  
-(M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ  
-(M,s)⊨K<sub>A</sub>φ	iff for all t∈S: (s,t)∈R<sub>A</sub> implies (M,t)⊨φ  
-(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t)⊨φ  
-(M,s)⊨ [φ]ψ	iff	(M,s)⊨φ implies (M|φ,s)⊨ψ  
-  
+We make use of the semantics definition as defined in the book Dynamic Epistemic Logic by van Ditmarsch, van der Hoek and Kooi. Namely, if there are m agents and the model is defined as M =〈S,Vp,R1...Rm〉, where S is the set of states, V<sub>p</sub> is the set of valuations at each state and R<sub>1</sub> to R<sub>m</sub> are the sets of relations for each agent, then:  
+    
+(M,s) ⊨ p &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iff s ∈ V<sub>p</sub>  
+(M,s) ⊨ ¬φ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iff    (M,s) &nvDash; φ  
+(M,s) ⊨ φ ∧ ψ&nbsp; iff (M,s) ⊨ φ and (M,s) ⊨ ψ  
+(M,s) ⊨ K<sub>A</sub>&nbsp;&nbsp;&nbsp;   iff for all t ∈ S: (s,t) ∈ R<sub>A</sub> implies (M,t) ⊨ φ  
+(M,s) ⊨ Cφ &nbsp;&nbsp; &nbsp;&nbsp;iff for all t ∈ S: (s,t) ∈ R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t) ⊨ φ  
+(M,s) ⊨ [φ]ψ &nbsp;&nbsp;&nbsp;iff  (M,s) ⊨ φ implies (M|φ,s) ⊨ ψ  
 
-where M|φ is defined as the subset of M such that φ is  valid in all its states. This is equivalent to pruning  the model of the states where φ is invalid, followed by the deletion of the valuations and relations that mention those states. Now, evaluating whether a given expression is valid in a pointed model (M,s) is a matter of recursively evaluating all sub-expressions  in that pointed model. For example, if we were to evaluate the expression (M,s)|=¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
+where M|φ is defined as the subset of M such that φ is  valid in all its states. This is equivalent to pruning  the model of the states where φ is invalid, followed by the deletion of the valuations and relations that mention those states. Now, evaluating whether a given expression is valid in a pointed model (M,s) is a matter of recursively evaluating all sub-expressions  in that pointed model. For example, if we were to evaluate the expression (M,s)⊨¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
 
 
 
