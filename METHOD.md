@@ -5,14 +5,14 @@ The program then outputs a string that holds information about whether the given
 
 ## Parsing Models
 
-The user is expected to input a plaintext file containing the states, valuations and relations of the given Kripke model. There is also an expected format the plaintext file should follow. The first line of the file should be equal to ``States:". The lines following this should denote the integer indices of the states, e.g. 0, 1, 2, et cetera.
+The user is expected to input a plaintext file containing the states, valuations and relations of the given Kripke model. There is also an expected format the plaintext file should follow. The first line of the file should be equal to "States:". The lines following this should denote the integer indices of the states, e.g. 0, 1, 2, et cetera.
 
-After all states have been specified, the following line should be equal to ``Valuations:". The following lines specify the valuations in each state.
+After all states have been specified, the following line should be equal to "Valuations:". The following lines specify the valuations in each state.
 
-After all valuations have been specified, the following line should be equal to ``Relations:". The final lines in the file should hold information about each agent (single letter) and the set of relations those agents have.
+After all valuations have been specified, the following line should be equal to "Relations:". The final lines in the file should hold information about each agent (single letter) and the set of relations those agents have.
 
 The structure of the plaintext file is best shown with an example:
-
+```bash
 States:
 0
 1
@@ -28,21 +28,24 @@ Valuations:
 Relations:
 A: (0 1), (2 3)
 B: (0 2), (1 3)
+```
 
-The above example contains the Kripke structure for the Muddy Children riddle with 2 children. The `!' behind state 3 denotes that state 3 is the real state, i.e. the pointed model becomes $(M, 3)$. Only one state can be denoted as the true state. If more states are denoted as the true state, the program will raise an error.
+The above example contains the Kripke structure for the Muddy Children riddle with 2 children. The '!' behind state 3 denotes that state 3 is the real state, i.e. the pointed model becomes `(M, 3)`. Only one state can be denoted as the true state. If more states are denoted as the true state, the program will raise an error.
 
 ## Parsing Propositions
 
 Once the model is defined and parsed correctly, the propositions are parsed and converted to a data structure that is easy to evaluate. The user can input a plaintext file with propositions on a single line. The following operators are supported:
 
-• ̃  for NOT
-• & for AND
-• | for OR
-• K{A} for agent A knows that
-• C for common knowledge
-• ( and ) to denote scope
-• [ and ] for weak public announcements
-• 〈 and 〉for strong public announcements
+```bash
+- ̃  for NOT
+- & for AND
+- | for OR
+- K{A} for agent A knows that
+- C for common knowledge
+- ( and ) to denote scope
+- [ and ] for weak public announcements
+- 〈 and 〉for strong public announcements
+```
 
 Furthermore, a propositional atom should always be a lowercase letter.The propositions are parsed from left to right.  A proposition is an expression,  which can consist of sub-expressions that can in turn consist of subsub-expressions et cetera.  This can be represented as a tree structure.If an atom is encountered (e.g.p), the expression is equal to Atom(p).  When an operator of degree 1 (i.e.   ̃,K{A}, C, ’(’, ’[’ or ’〈’) is encountered, the algorithm will parse the sub-expression to the right of the operatorand return an expression which applies that operator to the parsed sub-expression.  Should an operator of degree2 be encountered (i.e.  & or|) the algorithm will parse the sub-expression to the right of the operator and returnthe operator applied on the expression that was already parsed (on the left of the operator), plus the newlyparsed sub-expression to the right of the operator.
 
@@ -50,12 +53,14 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:
 
+```bash
 (M,s)|=p	iff 	s∈Vp
 (M,s)|=¬φ	iff	(M,s)6|=φ
 (M,s)|=φ∧ψ	iff	(M,s)|=φand (M,s)|=ψ
 (M,s)|=KAφ	iff 	for all t∈S: (s,t)∈RA implies (M,t)|=φ
 (M,s)|=Cφ	iff	for all t∈S: (s,t)∈R1∪...∪Rm implies (M,t)|=φ
 (M,s)|= [φ]ψ	iff	(M,s)|=φ implies (M|φ,s)|=ψ
+```
 
 where M|φ is  defined  as  the  subset  ofMsuch  that φ is  valid  in  all  its  states.   This  is  equivalent  to  prun-ing  the  model  of  the  states  where φ is  invalid,  followed  by  the  deletion  of  the  valuations  and  relations  thatmention those states. Now,  evaluating  whether  a  given  expression  is  valid  in  a  pointed  model  (M,s)  is  a  matter  of  recursively evaluating  all  sub-expressions  in  that  pointed  model.   For  example,  if  we  were  to  evaluate  the  expression (M,s)|=¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
 

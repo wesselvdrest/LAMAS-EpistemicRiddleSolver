@@ -3,7 +3,7 @@ For our Logical Aspects of Multi-agent Systems project we wanted to make a riddl
 
 ## Example Riddles
 ### Muddy Children
-A father takes his three perfectly logically thinking children to the park. The children go and play until it is time to go and the father calls them back to him. He sees that two of the children have mud on their foreheads. The father then says, "At least one of you has mud on your forehead", followed by, "If you know you have mud on your forehead step forward". No child steps forward. The father then repeats his question, "If you know you have mud on your forehead step forward". This time the two children with mud on their forehead step forward. 
+A father takes his three perfectly logically thinking children to the park. The children go and play until it is time to go and the father calls them back to him. He sees that two of the children have mud on their foreheads. The father then says, "At least one of you has mud on your forehead", followed by, "If you know you have mud on your forehead step forward". No child steps forward. The father then repeats his question, "If you know you have mud on your forehead step forward". This time the two children with mud on their forehead step forward. This works for any number of muddy children, then only the amount of announcement before the children know if they have mud on their forehead differs.
 
 ### Drinking Logicians
 Three logicians walk into a bar to have a drink. The bartender asks the logicians, "Do all of you want a drink?". The first logician replies with, "I don't know". The second logician replies with, "I don't know". Then the third logician replies to the bartender, "Yes!".
