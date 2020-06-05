@@ -16,7 +16,8 @@ K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r
 Looking at the model at this point (seen below) we can analyze K{A}p for example:
 
 
-			INSERT MODEL
+<img src="https://github.com/wesselvdrest/LAMAS-EpistemicRiddleSolver/blob/master/fullgraph.png" alt="model"
+	title="model" width="150" height="100" />
 
 
  M |= K{A}p    	⇔ 
