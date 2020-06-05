@@ -51,16 +51,14 @@ Furthermore, a propositional atom should always be a lowercase letter.The propos
 
 ## Evaluating Propositions
 
-We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:
-
-```
-(M,s)⊨p	    iff s∈V<sub>p</sub>
-(M,s)⊨¬φ	iff	(M,s)&22A8φ
-(M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ
-(M,s)⊨K<sub>A</sub>φ	iff for all t∈S: (s,t)∈R<sub>A</sub> implies (M,t)⊨φ
-(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t)⊨φ
-(M,s)⊨ [φ]ψ	iff	(M,s)⊨φ implies (M|φ,s)⊨ψ
-```
+We make use of the semantics definition as defined in [1].  Namely, if there aremagents and the model is definedasM=〈S,Vp,R1...Rm〉, whereSis the set of states,Vpis the set of valuations at each state andR1toRmarethe sets of relations for each agent, then:  
+(M,s)⊨p	    iff s∈V<sub>p</sub>  
+(M,s)⊨¬φ	iff	(M,s)&22A8φ  
+(M,s)⊨φ∧ψ	iff	(M,s)⊨φ and (M,s)⊨ψ  
+(M,s)⊨K<sub>A</sub>φ	iff for all t∈S: (s,t)∈R<sub>A</sub> implies (M,t)⊨φ  
+(M,s)⊨Cφ	iff	for all t∈S: (s,t)∈R<sub>1</sub> ∪ ... ∪ R<sub>m</sub> implies (M,t)⊨φ  
+(M,s)⊨ [φ]ψ	iff	(M,s)⊨φ implies (M|φ,s)⊨ψ  
+  
 
 where M|φ is  defined  as  the  subset  ofMsuch  that φ is  valid  in  all  its  states.   This  is  equivalent  to  prun-ing  the  model  of  the  states  where φ is  invalid,  followed  by  the  deletion  of  the  valuations  and  relations  thatmention those states. Now,  evaluating  whether  a  given  expression  is  valid  in  a  pointed  model  (M,s)  is  a  matter  of  recursively evaluating  all  sub-expressions  in  that  pointed  model.   For  example,  if  we  were  to  evaluate  the  expression (M,s)|=¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
 
