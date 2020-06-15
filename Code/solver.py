@@ -44,7 +44,6 @@ def valid(model, pointed_state, proposition):
     # An atom is valid in (M, s) if the atom is in the valuation    
 
 
-    # MIGHTDO: Fix in the parser that we do not get propositions of type Expression    
     while isinstance(proposition, Expression):
         # This is a quick fix
         proposition = proposition.expr
@@ -53,13 +52,15 @@ def valid(model, pointed_state, proposition):
         prop_is_valid = proposition.arg in model.valuations[str(pointed_state)]
 
     elif isinstance(proposition, AND):
-        prop_is_valid = valid(model, pointed_state, proposition.arg1) and valid(model, pointed_state, proposition.arg2)
+        prop_is_valid = valid(model, pointed_state, proposition.arg1) and \
+                        valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, NOT):
         prop_is_valid = not valid(model, pointed_state, proposition.arg)
 
     elif isinstance(proposition, OR):
-        prop_is_valid = valid(model, pointed_state, proposition.arg1) or valid(model, pointed_state, proposition.arg2)
+        prop_is_valid = valid(model, pointed_state, proposition.arg1) or \
+                        valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, K):
         agent = proposition.agent
@@ -80,7 +81,8 @@ def valid(model, pointed_state, proposition):
         # Determine which of the states are reachable in any number of steps
         # From the current pointed state
         reachable_states = {pointed_state}
-        prev_len_reachable_states = 0   # Keep track of length so that we may stop the while loop
+        # Keep track of length so that we may stop the while loop
+        prev_len_reachable_states = 0   
         while len(reachable_states) != prev_len_reachable_states:
             prev_len_reachable_states = len(reachable_states)
             for _, relations in model.relations.items():
@@ -100,10 +102,10 @@ def valid(model, pointed_state, proposition):
 
     elif isinstance(proposition, Box):
         # The announcement deletes some of the states and relations
-        # The proposition is valid if the argument is true regardless of the announcement
-        # For [p]q, read after the announcement of p, q is true
-        # This means that q can be true before the announcement
-        # If q is not true before the announcement,
+        # The proposition is valid if the argument is true regardless 
+        # of the announcement. For [p]q, read after the announcement
+        # of p, q is true. This means that q can be true before the
+        # announcement. If q is not true before the announcement,
         # the annnouncement of p implies q 
 
         if valid(model, pointed_state, proposition.arg1):
@@ -122,7 +124,8 @@ def valid(model, pointed_state, proposition):
 
     elif isinstance(proposition, Diamond):
         # The announcement deletes some of the states and relations
-        # Namely, the announcement deletes all states in which the announcement is invalid
+        # Namely, the announcement deletes all states in which the announcement
+        # is invalid
         viable_states = model.states.copy()
         for state in model.states:
             if not valid(model, state, proposition.arg1):
@@ -152,10 +155,15 @@ def where(model, proposition):
 
 def main():
     parser = argparse.ArgumentParser("Kripke model solver")
-    parser.add_argument("-m", "--model", metavar="FILE", required=True, help="The filename that contains the Kripke model")
+    parser.add_argument("-m", "--model", metavar="FILE", required=True,
+                        help="The filename that contains the Kripke model")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-v", "--valid", metavar="FILE", help="The filename in which a proposition is given. The valid() function will be run on that proposition.")
-    group.add_argument("-w", "--where", metavar="FILE", help="The filename in which a proposition is given. The where() function will be run on that proposition.")
+    group.add_argument("-v", "--valid", metavar="FILE",
+                       help="The filename in which a proposition is given. "
+                       "The valid() function will be run on that proposition.")
+    group.add_argument("-w", "--where", metavar="FILE",
+                       help="The filename in which a proposition is given. "
+                       "The where() function will be run on that proposition.")
     args = parser.parse_args()
     model = Model.fromtxtfile(args.model)
     print(model)
