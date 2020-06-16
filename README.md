@@ -1,5 +1,7 @@
 # LAMAS Project
 
+View project page: https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/
+
 ## Dependencies
 We are using the termcolor library. Install this library with the following command:  
 ```bash
