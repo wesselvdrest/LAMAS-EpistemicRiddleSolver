@@ -28,20 +28,19 @@
   <label for="models">Choose model:</label>
 
   <select name="models" id="models">
-    <option value="muddy_children" checked>Muddy Children</option>
-    <option value="hangman">Hangman</option>
-    <option value="drinking_logicians">Drinking logicians</option>
-    <option value="dining_cryptographers">Dining Cryptographers</option>
-    <option value="consecutive_numbers">Consecutive numbers</option>
-    <option value="cheryls_birthday">cheryls birthday</option>
+    <option value="muddy_children.json" checked>Muddy Children</option>
+    <option value="hangman_model.json">Hangman</option>
+    <option value="drinking_logicians_model.json">Drinking logicians</option>
+    <option value="dining_cryptographers_model.json">Dining Cryptographers</option>
+    <option value="consecutive_numbers_model.json">Consecutive numbers</option>
+    <option value="cheryls_birthday_model.json">cheryls birthday</option>
   </select>
 </div>
 <!-- <script type="text/javascript" src="muddychildren.json"></script> -->
 <script type="text/javascript">
   // var muddychildren = JSON.parse(muddychildren);
   var use_data
-  var muddy_children = [{"nodes": [{"id": 1, "label": "", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 2, "label": "p", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 3, "label": "q", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 4, "label": "r", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 5, "label": "p q", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 6, "label": "q r", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 7, "label": "p r", "shape": "circle", "size": 10, "color": "#e3e3e3"}, {"id": 8, "label": "p q r", "shape": "circle", "size": 10, "color": "#e3e3e3"}], "edges": [{"from": 1, "to": 2, "value": 1, "color": {"color": "#FF0000"}}, {"from": 3, "to": 5, "value": 1, "color": {"color": "#FF0000"}}, {"from": 4, "to": 7, "value": 1, "color": {"color": "#FF0000"}}, {"from": 6, "to": 8, "value": 1, "color": {"color": "#FF0000"}}, {"from": 1, "to": 3, "value": 1, "color": {"color": "#DC6F6F"}}, {"from": 4, "to": 6, "value": 1, "color": {"color": "#DC6F6F"}}, {"from": 2, "to": 5, "value": 1, "color": {"color": "#DC6F6F"}}, {"from": 7, "to": 8, "value": 1, "color": {"color": "#DC6F6F"}}, {"from": 1, "to": 4, "value": 1, "color": {"color": "#8D1919"}}, {"from": 5, "to": 8, "value": 1, "color": {"color": "#8D1919"}}, {"from": 3, "to": 6, "value": 1, "color": {"color": "#8D1919"}}, {"from": 2, "to": 7, "value": 1, "color": {"color": "#8D1919"}}], "total_relations": 3}]
-  var get_url = "https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/graph/" + "dining_cryptographers_model.json"
+  var get_url = "https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/graph/" + $("#models").children("option:selected").val()
   $(document).ready(function() {
     $.getJSON('get_url', function(data) {
         use_data = data;
@@ -78,7 +77,7 @@
           }
   }
     var network = new vis.Network(container, data, options);
-  }, 1500);
+  }, 100);
 </script>
 </body>
 </html>
