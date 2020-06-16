@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <title>Network</title>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+    #mynetwork {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .controls {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+<div id="mynetwork"></div>
+<div class="controls">
+  <label for="models">Choose model:</label>
+
+  <select name="models" id="models">
+    <option value="muddy_children" checked>Muddy Children</option>
+    <option value="hangman">Hangman</option>
+    <option value="drinking_logicians">Drinking logicians</option>
+    <option value="dining_cryptographers">Dining Cryptographers</option>
+    <option value="consecutive_numbers">Consecutive numbers</option>
+    <option value="cheryls_birthday">cheryls birthday</option>
+  </select>
+</div>
+<!-- <script type="text/javascript" src="muddychildren.json"></script> -->
+<script type="text/javascript">
+  // var muddychildren = JSON.parse(muddychildren);
+  var use_data
+  $(document).ready(function() {
+    $.getJSON('dining_cryptographers_model.json', function(data) {
+        use_data = data;
+        // console.log(data.nodes)
+    });     
+  });
+  
+  setTimeout(function(){ 
+    var nodes = new vis.DataSet(use_data.nodes);
+
+    // create an array with edges
+    var edges = new vis.DataSet(use_data.edges);
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    // var options = {}
+    var options = {
+    edges: { smooth: true, shadow: false},
+          layout:{
+            improvedLayout: true,
+              hierarchical: {
+                  edgeMinimization: true,
+                  enabled:false,
+                  parentCentralization: false,
+                  nodeSpacing: 700,
+                  direction: 'LR',
+                  sortMethod: 'directed'
+                  }
+          }
+  }
+    var network = new vis.Network(container, data, options);
+  }, 100);
+</script>
+</body>
+</html>
