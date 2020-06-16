@@ -5,7 +5,6 @@
 
 # In the first stage, every two cryptographers establish a shared one-bit secret.
 # if one cryptographer has two one-bit secret 
-[~(p&q) & ~(q&r) & ~(p&r)] 
+#[(p&q) & ~(q&r) & ~(p&r)] 
 
-
-(OR(s, t) & ~AND(s, t))
+^(p, q)
