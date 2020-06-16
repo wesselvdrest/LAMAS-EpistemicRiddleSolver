@@ -62,6 +62,12 @@ def valid(model, pointed_state, proposition):
         prop_is_valid = valid(model, pointed_state, proposition.arg1) or \
                         valid(model, pointed_state, proposition.arg2)
 
+    elif isinstance(proposition, XOR):
+        prop_is_valid = valid(model, pointed_state, proposition.arg1) or \
+                        valid(model, pointed_state, proposition.arg2) and not \
+                        (valid(model, pointed_state, proposition.arg1) and \
+                        valid(model, pointed_state, proposition.arg2))
+        
     elif isinstance(proposition, K):
         agent = proposition.agent
         prop_is_valid = True

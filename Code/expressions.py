@@ -59,6 +59,19 @@ class OR:
     def __len__(self):
         return len(self.arg1) + len(self.arg2) + 1
 
+class XOR:
+    def __init__(self, arg1, arg2):
+        """The XOR operator has 2 arguments."""
+        self.arg1 = arg1
+        self.arg2 = arg2
+        self.order = 2
+
+    def __repr__(self):
+        return f"XOR({self.arg1}, {self.arg2})"
+
+    def __len__(self):
+        return len(self.arg1) + len(self.arg2) + 1
+
 class C:
     def __init__(self, arg):
         self.arg = arg
@@ -255,6 +268,15 @@ class Expression:
                 next_subexpr = Expression(string[1:])
                 expr = OR(expr, next_subexpr)
                 string = string[len(next_subexpr)+1:]
+
+            # ^ case
+            elif string[0] == "^":
+                # The XOR operator also has 2 arguments
+                before_string = string
+                next_subexpr = Expression(string[1:])
+                expr = XOR(expr, next_subexpr)
+                string = string[len(next_subexpr)+1:]
+            
             # The epistemic operator C case
             elif string[0] == "C":
                 subexpr, string = self.order1_case(string[1:])
