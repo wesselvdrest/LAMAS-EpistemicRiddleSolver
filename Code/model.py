@@ -106,8 +106,8 @@ class Model:
                 tuples = tuples.split(",")
                 for r in tuples:
                     r = r.strip(" ")
-                    new_relation = (int(r[0]), int(r[2]))
-
+                    r = r.split(" ")
+                    new_relation = (int(r[0]), int(r[1]))
                     try:
                         relations[agent].add(new_relation)
                     except KeyError:
