@@ -28,7 +28,7 @@
   <label for="models">Choose model:</label>
 
   <select name="models" id="models">
-    <option value="muddy_children.json" checked>Muddy Children</option>
+    <option value="muddy_children_model.json" checked>Muddy Children</option>
     <option value="hangman_model.json">Hangman</option>
     <option value="drinking_logicians_model.json">Drinking logicians</option>
     <option value="dining_cryptographers_model.json">Dining Cryptographers</option>
@@ -40,7 +40,9 @@
 <script type="text/javascript">
   // var muddychildren = JSON.parse(muddychildren);
   var use_data
+  console.log($("#models").children("option:selected").val())
   var get_url = "https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/graph/" + $("#models").children("option:selected").val()
+  console.log(get_url)
   $(document).ready(function() {
     $.getJSON('get_url', function(data) {
         use_data = data;
