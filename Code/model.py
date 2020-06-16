@@ -19,9 +19,9 @@ class Model:
 
 
     def set_states(self, states):
-        """This method is based on the intuition that when we want to set the states
-        of the model, i.e. take a subset of the original states, we should also
-        change the valuations and relations to reflect this."""
+        """This method is based on the intuition that when we want to set
+        the states of the model, i.e. take a subset of the original states, 
+        we should also change the valuations and relations to reflect this."""
         self.states = set(states)
         for state, valuation in self.valuations.copy().items():
             if int(state) not in self.states:
@@ -36,8 +36,8 @@ class Model:
     def create_reflexive_relations(self):
         """Sometimes, writing out all reflexive relations in the model
         can be rather tiresome. This method will do that for us.
-        Thus there is no need to explicitly write the reflexive relations in the model,
-        but it is no problem if that should be done."""
+        Thus there is no need to explicitly write the reflexive relations 
+        in the model, but it is no problem if that should be done."""
         for agent, relations in self.relations.copy().items():
             for state in self.states:
                 if (state, state) not in relations:
@@ -64,54 +64,54 @@ class Model:
             contents = f.readlines()
             parse_state = "States"
 
-            for c in contents:
-                c = c.rstrip("\n")
-                if c == "" or '#' in c or c == "States:":
+        for c in contents:
+            c = c.rstrip("\n")
+            if c == "" or '#' in c or c == "States:":
+                continue
+
+            if parse_state == "States":
+                if c == "Valuations:":
+                    parse_state = "Valuations"
                     continue
 
-                if parse_state == "States":
-                    if c == "Valuations:":
-                        parse_state = "Valuations"
-                        continue
+                # Pointed states are denoted by !
+                if "!" in c:
+                    if pointed_state != None:
+                        raise StateParseError(states,
+                                              "Max 1 !-mark")
 
-                    # Pointed states are denoted by !
-                    if "!" in c:
-                        if pointed_state != None:
-                            raise StateParseError(states,
-                                                  "Too many ! detected (max 1).")
+                    c = c.replace("!", "")
+                    pointed_state = int(c)
 
-                        c = c.replace("!", "")
-                        pointed_state = int(c)
+                states.add(int(c))
 
-                    states.add(int(c))
+            elif parse_state == "Valuations":
+                if c == "Relations:":
+                    parse_state = "Relations"
+                    continue
 
-                elif parse_state == "Valuations":
-                    if c == "Relations:":
-                        parse_state = "Relations"
-                        continue
+                split = c.split(" ")
+                for i, s in enumerate(split):
+                    s = s.strip(" ")
+                    split[i] = s
 
-                    split = c.split(" ")
-                    for i, s in enumerate(split):
-                        s = s.strip(" ")
-                        split[i] = s
+                state = split[0].rstrip(":")
+                valuations[state] = split[1:]
 
-                    state = split[0].rstrip(":")
-                    valuations[state] = split[1:]
+            elif parse_state == "Relations":
+                agent = c.split(":")[0]
+                tuples = c.split(":")[1]
+                tuples = tuples.replace("(", "")
+                tuples = tuples.replace(")", "")
+                tuples = tuples.split(",")
+                for r in tuples:
+                    r = r.strip(" ")
+                    new_relation = (int(r[0]), int(r[2]))
 
-                elif parse_state == "Relations":
-                    agent = c.split(":")[0]
-                    tuples = c.split(":")[1]
-                    tuples = tuples.replace("(", "")
-                    tuples = tuples.replace(")", "")
-                    tuples = tuples.split(",")
-                    for r in tuples:
-                        r = r.strip(" ")
-                        new_relation = (int(r[0]), int(r[2]))
-
-                        try:
-                            relations[agent].add(new_relation)
-                        except KeyError:
-                            relations[agent] = {new_relation}
+                    try:
+                        relations[agent].add(new_relation)
+                    except KeyError:
+                        relations[agent] = {new_relation}
 
         return cls(states, pointed_state, valuations, relations)
 
