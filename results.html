@@ -27,6 +27,8 @@
 		<meta name="theme-color" content="#ffffff">
 		<!-- CSS -->
 		<link rel="stylesheet" href="style.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  		<script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 		<!-- Lightweight client-side loader that feature-detects and load polyfills only when necessary -->
 		<script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.min.js"></script>
@@ -35,6 +37,51 @@
 		<!-- Icons -->
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
 		<link rel="shortcut icon" href="/public/favicon.ico">
+		<style>
+			#mynetwork {
+			width: 100%;
+			height: 500px;
+			}
+
+			#mynetwork:focus {
+				outline: none;
+			}
+
+			.vis-network:focus {
+				outline: none;
+			}
+
+			canvas:focus {
+				outline: none;
+			}
+
+			.controls {
+				position: absolute;
+				top: 20px;
+				left: 0;
+			}
+
+			@media only screen and (min-width: 608px) {
+				.controls {
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+			}
+			
+			.dynamic_network {
+				position: relative;
+				margin-top: -80px;
+				width: 104%;
+				margin-left: -20px;
+			}
+
+			@media only screen and (max-width: 767px) {
+				.dynamic_network {
+					width: 100vw;
+				}
+			}
+		</style>
 	</head>
 	<body cz-shortcut-listen="true">
 		<div class="sidebar">
@@ -62,11 +109,107 @@
 			</div>
 		</div>
 		<div class="content container">
+			<div class="dynamic_network">
+				<div id="mynetwork"></div>
+				<div class="controls">
+				  <label for="models">Choose model:</label>
+			
+				  <select name="models" id="models">
+					<option value="muddy_children_model.json" selected>Muddy Children</option>
+					<option value="hangman_model.json">Hangman</option>
+					<option value="drinking_logicians_model.json">Drinking logicians</option>
+					<option value="dining_cryptographers_model.json">Dining Cryptographers</option>
+					<option value="consecutive_numbers_model.json">Consecutive numbers</option>
+					<option value="cheryls_birthday_model.json">cheryls birthday</option>
+				  </select>
+				</div>
+			</div>
 			<div class="posts">
 				<div class="post">
 					<zero-md src="RESULTS.md"></zero-md>
 				</div>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			// var muddychildren = JSON.parse(muddychildren);
+			var use_data
+			var get_url = "https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/graph/" + $("#models").children("option:selected").val()
+			$(document).ready(function() {
+			  $.getJSON(get_url, function(data) {
+				  use_data = data;
+				  console.log(data);
+				  // console.log(data.nodes)
+			  });  
+		  
+			  $( "#models" ).change(function() {
+				var get_url = "https://wesselvdrest.github.io/LAMAS-EpistemicRiddleSolver/graph/" + $("#models").children("option:selected").val()
+				$.getJSON(get_url, function(data) {
+				  use_data = data;
+				}); 
+				  // use_data = muddy_children;
+				  setTimeout(function(){ 
+					var nodes = new vis.DataSet(use_data.nodes);
+		  
+					// create an array with edges
+					var edges = new vis.DataSet(use_data.edges);
+		  
+					// create a network
+					var container = document.getElementById('mynetwork');
+					var data = {
+					  nodes: nodes,
+					  edges: edges
+					};
+					// var options = {}
+					var options = {
+					edges: { smooth: true, shadow: false},
+						  layout:{
+							improvedLayout: true,
+							  hierarchical: {
+								  edgeMinimization: true,
+								  enabled:false,
+								  parentCentralization: false,
+								  nodeSpacing: 700,
+								  direction: 'LR',
+								  sortMethod: 'directed'
+								  }
+						  }
+				  }
+					var network = new vis.Network(container, data, options);
+				  }, 500);
+			  });   
+			});
+			// use_data = muddy_children;
+			setTimeout(function(){ 
+			  var nodes = new vis.DataSet(use_data.nodes);
+		  
+			  // create an array with edges
+			  var edges = new vis.DataSet(use_data.edges);
+		  
+			  // create a network
+			  var container = document.getElementById('mynetwork');
+			  var data = {
+				nodes: nodes,
+				edges: edges
+			  };
+			  // var options = {}
+			  var options = {
+			  edges: { smooth: true, shadow: false},
+					layout:{
+					  improvedLayout: true,
+						hierarchical: {
+							edgeMinimization: true,
+							enabled:false,
+							parentCentralization: false,
+							nodeSpacing: 700,
+							direction: 'LR',
+							sortMethod: 'directed'
+							}
+					}
+			}
+			  var network = new vis.Network(container, data, options);
+			  
+			}, 500);
+		  </script>
 	</body>
 </html>

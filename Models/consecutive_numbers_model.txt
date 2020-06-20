@@ -1,4 +1,4 @@
-# Anne and Bill are each going to be told a natural number. Their numbers will # be one apart. The numbers are now being whispered in their respective ears. # They are aware of this scenario. Suppose Anne is told 2 and Bill is told 3. # The following truthful conversation between Anne and Bill now takes place:
+# Anne and Bill are each going to be told a natural number. Their numbers will be one apart. The numbers are now being whispered in their respective ears. They are aware of this scenario. Suppose Anne is told 2 and Bill is told 3. The following truthful conversation between Anne and Bill now takes place:
 #
 #    Anne: "I do not know your number."
 #    Bill: "I do not know your number."
