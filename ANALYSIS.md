@@ -1,6 +1,8 @@
 # Analysis
 
-This section will show the 'on paper' analysis of the muddy children riddle with three children who are all muddy. 
+This section will show an analysis of the Muddy Children riddle with three children who are all muddy. This analysis can be done by hand, but our system is designed to allow for an easy transition from manual analyses to analyses with our solver. In fact, the propositions shown here can be entered directly into our system. The system parses these propositions and evaluates them according to the specified Kripke model. 
+
+------------------------------------------------------------------------------------------------------------------
 
 There are three children: Alice, Bob and Carol. 
 
@@ -9,7 +11,7 @@ p = Alice is muddy
 q = Bob is muddy  
 r = Carol is muddy  
 
-The first proposition states whether any of the children know they are muddy at the start of the riddle:
+The following proposition can be read as "Do any of the children know whether they are muddy?":  
 
 ```plain
 K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r
@@ -28,7 +30,7 @@ Looking at the model at this point (seen below) we can analyze K{A}p for example
  So K{A}p is not valid in the given model.
  ```
  
-Repeating this for all atoms given in the first proposition shows they are all not valid in the current model.
+Repeating this process for all disjuncts given in the proposition shows they are all invalid in the current model.
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -43,7 +45,7 @@ The new model is shown below
 <img src="fullgraph_1.png" alt="model"
 	title="model" width="350" />
 
-After this announcement w_0 is removed as possibility but the atoms in the proposition are still all invalid as shown for the first proposition.
+After this announcement w<sub>0</sub> is removed as a possibility (due to the fact that no child walked forward) but the atoms in the proposition are still all invalid as shown for the first proposition.
 
 -----------------------------------------------------------------------------------------------------------------
 
