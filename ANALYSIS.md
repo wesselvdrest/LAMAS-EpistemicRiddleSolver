@@ -34,7 +34,7 @@ Repeating this process for all disjuncts given in the proposition shows they are
 
 ------------------------------------------------------------------------------------------------------------------
 
-The second proposition states that after the first announcement that at least one child is muddy. Do any of the children know whether they are muddy?
+The following proposition is the second step in the Muddy Children problem. It can be read as: "After the announcement that at least one child is muddy, do any of the children know whether they are muddy?"
 
 ```plain
 <p | q | r>(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
@@ -45,27 +45,28 @@ The new model is shown below
 <img src="fullgraph_1.png" alt="model"
 	title="model" width="350" />
 
-After this announcement w<sub>0</sub> is removed as a possibility (due to the fact that no child walked forward) but the atoms in the proposition are still all invalid as shown for the first proposition.
+After this announcement w<sub>0</sub> is removed as a possibility (due to the fact that in w<sub>0</sub> no child would be muddy) but the atoms in the proposition are still all invalid as shown for the first proposition.
 
 -----------------------------------------------------------------------------------------------------------------
 
-The third proposition states that since no one has stepped forward yet, which can be represented as an announcement. After the second announcement that at least one child is muddy, do any of the children know whether they are muddy?
+No one steps forward yet again, which can be formulated as a public announcement that states that no child knows whether they are muddy.
+The following (third) proposition includes that announcement. The proposition can be read as follows: "After the announcements that at least one child is muddy and no child knows whether they are muddy, do any of the children know whether they are muddy?"
 
 ```plain
 [(p | q | r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)](K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
 ```
 
-It is now necessary that at least one child is muddy and that none of the children after the first announcement know whether they are muddy. Image that only one child was muddy, this child would have stepped forward after the first announcement as it could see the other two children not being muddy in combination with at least one child being muddy would make this child step forward. This is known to all the children thus the model changes and can be seen below:
+It is now necessary that at least one child is muddy and that none of the children after the first announcement know whether they are muddy. Imagine that only one child was muddy, this child would have stepped forward after the first announcement as it could see the other two children would not be muddy. This is known to all the children thus the model changes and can be seen below:
 
 <img src="fullgraph_2.png" alt="model"
 	title="model" width="350" />
 
 
-At this point no child is still sure about their own muddyness since there are still 4 worlds left which still makes all atoms in the proposition invalid.
+At this point no child is still sure about their own muddyness since there are still 4 worlds left which still makes all disjuncts in the proposition invalid.
 
 --------------------------------------------------------------------------------------------------------------------
 
-The fourth proposition is states that no one has stepped forward yet, which can be represented as an announcement. After the third announcement that at least one child is muddy, do any of the children know whether they are muddy?
+The fourth proposition states that no one has stepped forward yet, which can be represented as an announcement. After the third announcement that at least one child is muddy, do any of the children know whether they are muddy?
 
 ```plain
 [(p | q | r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)][~(K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)](K{A}p | K{A}~p | K{B}q | K{B}~q | K{C}r | K{C}~r)
