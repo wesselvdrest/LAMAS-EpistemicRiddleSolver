@@ -201,7 +201,7 @@ OR(K{P}(a), OR(K{P}(b), OR(K{P}(c), OR(K{P}(d), OR(K{P}(e), OR(K{P}(f), K{P}(g))
 After the announcement by the judge, does the prisoner know he will not be executed on Friday, thereby making his reasoning correct?
 
 ```plain
-(a|b|c|d|e|f|g)&~(K{P}a|K{P}b|K{P}c|K{P}d|K{P}e|K{P}f|K{P}g)](K{P}e)
+[(a|b|c|d|e|f|g)&~(K{P}a|K{P}b|K{P}c|K{P}d|K{P}e|K{P}f|K{P}g)](K{P}e)
 
 Box[AND(OR(a, OR(b, OR(c, OR(d, OR(e, OR(f, g)))))), NOT(OR(K{P}(a), OR(K{P}(b), OR(K{P}(c), OR(K{P}(d), OR(K{P}(e), OR(K{P}(f), K{P}(g)))))))))](K{P}(e))
 
