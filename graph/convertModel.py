@@ -1,17 +1,14 @@
 import os
 import json
 
-# colours = ["red", "green", "blue", "orange", "purple", "yellow", "cyan", "pink"]
-
 colours = ["#FF0000","#DC6F6F","#8D1919","#FCADAD","#733F3F","yellow", "cyan", "pink"]
 
 def main():
     for filename in os.listdir("../Models/"):
-        if(filename.endswith(".txt")):
+        name, ext = os.path.splitext(filename)
+        if ext == ".txt":
             file = os.path.join("../Models/", filename)
             with open(file, 'r') as f:
-                name = filename.split(".txt")[0]
-                print(name)
                 data = {}
                 iteration = 1
                 rel_iterate = 1
@@ -45,7 +42,6 @@ def main():
                     if use_relations:
                         if (line[0][0] != "#" and line != "\n"):
                             current_relations = line.split(":")[1].split(",")
-                            # print(current_relations)
                             for relation in current_relations:
                                 used_relation = relation[relation.find("(")+len("("):relation.rfind(")")]
                                 data['edges'].append({
@@ -63,9 +59,7 @@ def main():
                 file_name = name + ".json"
                 with open(file_name, 'w') as outfile:
                     json.dump(data, outfile)
-            continue
-        else:
-            continue
+
 
 if __name__ == "__main__":
     main()
