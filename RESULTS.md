@@ -4,7 +4,7 @@ The following shows the output of our solver for the three riddles that were giv
 
 ## Muddy Children
 Three brilliant children go to the park to play. When their father comes to find them, he sees that all of them have mud on their foreheads. He then says, “At least one of you has mud on your forehead”, and then asks, “Do you know if you have mud on your forehead?” The children simultaneously respond, “No”.
-Do any of the children know whether they are muddy?
+Do any of the children know whether they are muddy?  
 
 ```plain
 K{A}p|K{A}~p|K{B}q|K{B}~q|K{C}r|K{C}~r
@@ -143,7 +143,7 @@ OR(K{A}(p), K{A}(r))
 ```
 -----------------------------------------------------------------------------------------------------------------------  
 
- Does Bill know Anne's number?
+Does Bill know Anne's number?
 ```plain
 K{B}q|K{B}s
 
@@ -155,11 +155,11 @@ OR(K{B}(q), K{B}(s))
 
 Is it true that Bill does not know Anne's number after she says she does not know Bill's number?
 ```plain
-[~K{A}(p)&~K{A}(r)](~K{B}(q)&~K{B}(s))
+[~K{A}(p)&~K{A}(r)]( ~K{B}(q)&~K{B}(s))
 
 Box[AND(NOT(K{A}(p)), NOT(K{A}(r)))](AND(NOT(K{B}(q)), NOT(K{B}(s))))
 
-(M, 1) ⊨ [~K{A}(p)&~K{A}(r)](~K{B}(q)&~K{B}(s))
+(M, 1) ⊨ [~K{A}(p)&~K{A}(r)]( ~K{B}(q)&~K{B}(s))
 ```
 -----------------------------------------------------------------------------------------------------------------------  
 
@@ -174,7 +174,7 @@ Box[AND(NOT(K{A}(p)), NOT(K{A}(r)))](Box[AND(NOT(K{B}(q)), NOT(K{B}(s)))](OR(K{A
 ```
 -----------------------------------------------------------------------------------------------------------------------  
 
- Does Bill know Anne's number after Anne has announced that she knows his?
+Does Bill know Anne's number after Anne has announced that she knows his?
 
 ```plain
 [~K{A}(p)&~K{A}(r)][~K{B}(q)&~K{B}(s)][K{A}(p)|K{A}(r)](K{B}(q)|K{B}(s))
