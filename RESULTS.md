@@ -1,6 +1,6 @@
 # Results
 
-The following shows the output of our solver for the three riddles that were given as examples in the introduction. Per riddle every part seperated by the lines sequentially represents a time in the riddle where a different amount of information is available. The last part for every riddle thus represents the moment where all the information from the riddle is given.
+In this section we show the output of our solver for the riddles that were given as examples in the introduction. For each riddle there are multiple things we could be interested in. Each proposition of interest is separated by lines. For each output block, the first line shows the proposition itself, the second line shows the parsed representation of that proposition, and the third line shows whether the proposition holds in the pointed state. Each of the propositional atoms have a meaning. These meanings are omitted from this section for the sake of brevity and clarity.
 
 ## Muddy Children
 Three brilliant children go to the park to play. When their father comes to find them, he sees that all of them have mud on their foreheads. He then says, “At least one of you has mud on your forehead”, and then asks, “Do you know if you have mud on your forehead?” The children simultaneously respond, “No”.
@@ -75,7 +75,7 @@ Box[AND(NOT(OR(K{A}(AND(p, AND(q, r))), K{A}(NOT(AND(p, AND(q, r)))))), NOT(OR(K
 
 ## Cheryl's Birthday
 
-Does anyone know Cheryls birthday?
+Does anyone know Cheryl's birthday?
 
 ```plain
 K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)|K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
