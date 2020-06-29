@@ -1,10 +1,27 @@
-# Three cryptographers have gotten dinner and one of them has paid for it, 
-# or the NSA has paid for it. The cryptpographer want to know if the NSA 
-# has paid, but don't want to know if one of the cryptographers has paid,
-# which cryptographer it was.
+# The following description is taken from Wikipedia:
+# Three cryptographers gather around a table for dinner. The waiter informs them that the meal has been paid for by someone, who could be one of the cryptographers or the National Security Agency (NSA). The cryptographers respect each other's right to make an anonymous payment, but want to find out whether the NSA paid. So they decide to execute a two-stage protocol. In the first stage, every two cryptographers establish a shared one-bit secret, say by tossing a coin behind a menu so that only two cryptographers see the outcome in turn for each two cryptographers. Suppose, for example, that after the coin tossing, cryptographer A and B share a secret bit 1, A and C share 0, and B and C share 1. 
 
-# In the first stage, every two cryptographers establish a shared one-bit secret.
-# if one cryptographer has two one-bit secret 
-#[(p&q) & ~(q&r) & ~(p&r)] 
+# Before any announcements have taken place, do any of the cryptographers know whether any of the cryptographers have paid for the dinner?
+K{A}(p | q | r) | K{A}(~(p | q | r))
+K{B}(p | q | r) | K{B}(~(p | q | r))
+K{C}(p | q | r) | K{C}(~(p | q | r))
 
-^(p, q)
+# In the second stage, each cryptographer publicly announces a bit, which is: if they didn't pay for the meal, the exclusive OR (XOR) of the two shared bits they hold with their two neighbours. If they did pay for the meal, the opposite of that XOR.
+
+# What are the XOR-ed bits?
+s ^ t
+t ^ u
+s ^ u
+
+# After all announcements have taken place, do any of the cryptographers know whether any of the cryptographers have paid for the dinner?
+<s ^ t><t ^ u><s ^ u>(K{A}(p | q | r) | K{A}(~(p | q | r)))
+<s ^ t><t ^ u><s ^ u>(K{B}(p | q | r) | K{B}(~(p | q | r)))
+<s ^ t><t ^ u><s ^ u>(K{C}(p | q | r) | K{C}(~(p | q | r)))
+
+# After all announcements, do any of the cryptographers know the identity of the one who has paid for the dinner (in case it was paid by a cryptographer)?
+<s ^ t><t ^ u><s ^ u>(K{A}(q) | K{A}(~(q)))
+<s ^ t><t ^ u><s ^ u>(K{A}(r) | K{A}(~(r)))
+<s ^ t><t ^ u><s ^ u>(K{B}(p) | K{B}(~(p)))
+<s ^ t><t ^ u><s ^ u>(K{B}(r) | K{B}(~(r)))
+<s ^ t><t ^ u><s ^ u>(K{C}(p) | K{C}(~(p)))
+<s ^ t><t ^ u><s ^ u>(K{C}(q) | K{C}(~(q)))

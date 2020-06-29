@@ -43,7 +43,6 @@ def valid(model, pointed_state, proposition):
     """
     # An atom is valid in (M, s) if the atom is in the valuation    
 
-
     while isinstance(proposition, Expression):
         # This is a quick fix
         proposition = proposition.expr
@@ -63,8 +62,8 @@ def valid(model, pointed_state, proposition):
                         valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, XOR):
-        prop_is_valid = valid(model, pointed_state, proposition.arg1) or \
-                        valid(model, pointed_state, proposition.arg2) and not \
+        prop_is_valid = (valid(model, pointed_state, proposition.arg1) or \
+                        valid(model, pointed_state, proposition.arg2)) and not \
                         (valid(model, pointed_state, proposition.arg1) and \
                         valid(model, pointed_state, proposition.arg2))
         
@@ -153,7 +152,7 @@ def where(model, proposition):
     in_worlds = []
     for state in model.states:
         pointed_state = state
-
+        
         if valid(model, pointed_state, proposition):
             in_worlds.append(pointed_state)
 
