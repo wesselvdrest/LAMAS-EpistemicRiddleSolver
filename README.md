@@ -63,6 +63,7 @@ C for Common Knowledge
 K{A} for agent A knows that  
 <> for some truthful public announcement  
 [] for every truthful public announcement  
+?1 for a a public whether announcement (announce falsity if the argument is false and announce the truth if the argument is true)
 And of course the parentheses can be used to denote scope ( )  
 
 The proposition files can also contain text that the user wants to print out to the console. These lines of text should start with the #-symbol.  
@@ -83,7 +84,7 @@ K{A}p
 [p]q  
 [p & q]r  
 [p&q](r & q)  
-[p&q]r & q  
+?p&q!(r & q)  
 p | <q>r  
 # This is a line of text that will be printed out to the console.
 ```
@@ -114,4 +115,3 @@ Multicharacter propositions
 Multicharacter agents inside the K-operator  
 Knows whether operator (`K?{A}` would then be an abbreviation for `K{A}p | K{A}~p`)  
 Common knowledge for subgroups  
-XOR parsing and evaluating  

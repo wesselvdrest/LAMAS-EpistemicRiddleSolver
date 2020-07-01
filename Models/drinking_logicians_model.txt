@@ -8,6 +8,10 @@ States:
 6
 7!
 
+# p = Logician A wants a drink
+# q = Logician B wants a drink
+# r = Logician C wants a drink
+
 Valuations:
 0:
 1: p

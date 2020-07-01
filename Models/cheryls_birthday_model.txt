@@ -10,6 +10,17 @@ States:
 8
 9
 
+# p = 14
+# q = 15
+# r = 16
+# s = 17
+# t = 18
+# u = 19
+# v = May
+# w = June
+# x = July
+# y = August
+
 Valuations:
 0: p x
 1: p y
