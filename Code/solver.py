@@ -138,24 +138,6 @@ def valid(model, pointed_state, proposition):
 
         prop_is_valid = valid(model, pointed_state, new_prop)
 
-
-    # elif isinstance(proposition, Diamond):
-    #     # The announcement deletes some of the states and relations
-    #     # Namely, the announcement deletes all states in which the announcement
-    #     # is invalid
-    #     viable_states = model.states.copy()
-    #     for state in model.states:
-    #         if not valid(model, state, proposition.arg1):
-    #             viable_states.remove(state)
-
-    #     temp_model = Model.copy(model)
-    #     temp_model.set_states(viable_states)
-
-    #     if pointed_state not in temp_model.states:
-    #         prop_is_valid = False
-    #     else:
-    #         prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
-
     return prop_is_valid
 
 def where(model, proposition):
