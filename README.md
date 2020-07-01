@@ -22,7 +22,7 @@ The program can also be run with the following command, provided that there is a
 ```bash
 python3 Code/solver.py --riddle <riddle_name>
 ```
-Example riddle names would be drinking_logicians, muddy_children or dining_cryptographers.
+It should be noted that this evaluates the validity of the propositions. To see where the propositions hold in the given Kripke model, please use the `-m` and `-w` options. Example riddle names would be drinking_logicians, muddy_children or dining_cryptographers.
 
 ## Format of Kripke model
 A model file should follow the format of the following example:  
