@@ -2,6 +2,7 @@ import argparse
 from termcolor import colored
 from model import Model
 from expressions import *
+import os
 
 # S5 Kripke model solver
 
@@ -44,7 +45,6 @@ def valid(model, pointed_state, proposition):
     # An atom is valid in (M, s) if the atom is in the valuation    
 
     while isinstance(proposition, Expression):
-        # This is a quick fix
         proposition = proposition.expr
 
     if isinstance(proposition, Atom):
@@ -62,10 +62,9 @@ def valid(model, pointed_state, proposition):
                         valid(model, pointed_state, proposition.arg2)
 
     elif isinstance(proposition, XOR):
-        prop_is_valid = (valid(model, pointed_state, proposition.arg1) or \
-                        valid(model, pointed_state, proposition.arg2)) and not \
-                        (valid(model, pointed_state, proposition.arg1) and \
-                        valid(model, pointed_state, proposition.arg2))
+        valid_1 = valid(model, pointed_state, proposition.arg1)
+        valid_2 = valid(model, pointed_state, proposition.arg2)
+        prop_is_valid = (valid_1 or valid_2) and not (valid_1 and valid_2)
         
     elif isinstance(proposition, K):
         agent = proposition.agent
@@ -128,21 +127,34 @@ def valid(model, pointed_state, proposition):
             prop_is_valid = True
 
     elif isinstance(proposition, Diamond):
-        # The announcement deletes some of the states and relations
-        # Namely, the announcement deletes all states in which the announcement
-        # is invalid
-        viable_states = model.states.copy()
-        for state in model.states:
-            if not valid(model, state, proposition.arg1):
-                viable_states.remove(state)
+        new_prop = NOT(Box(proposition.arg1, NOT(proposition.arg2)))
+        prop_is_valid = valid(model, pointed_state, new_prop)
 
-        temp_model = Model.copy(model)
-        temp_model.set_states(viable_states)
-
-        if pointed_state not in temp_model.states:
-            prop_is_valid = False
+    elif isinstance(proposition, Whether):
+        if valid(model, pointed_state, proposition.arg1):
+            new_prop = Box(proposition.arg1, proposition.arg2)
         else:
-            prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
+            new_prop = Box(NOT(proposition.arg1), proposition.arg2)
+
+        prop_is_valid = valid(model, pointed_state, new_prop)
+
+
+    # elif isinstance(proposition, Diamond):
+    #     # The announcement deletes some of the states and relations
+    #     # Namely, the announcement deletes all states in which the announcement
+    #     # is invalid
+    #     viable_states = model.states.copy()
+    #     for state in model.states:
+    #         if not valid(model, state, proposition.arg1):
+    #             viable_states.remove(state)
+
+    #     temp_model = Model.copy(model)
+    #     temp_model.set_states(viable_states)
+
+    #     if pointed_state not in temp_model.states:
+    #         prop_is_valid = False
+    #     else:
+    #         prop_is_valid = valid(temp_model, pointed_state, proposition.arg2)
 
     return prop_is_valid
 
@@ -160,7 +172,7 @@ def where(model, proposition):
 
 def main():
     parser = argparse.ArgumentParser("Kripke model solver")
-    parser.add_argument("-m", "--model", metavar="FILE", required=True,
+    parser.add_argument("-m", "--model", metavar="FILE",
                         help="The filename that contains the Kripke model")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-v", "--valid", metavar="FILE",
@@ -169,13 +181,31 @@ def main():
     group.add_argument("-w", "--where", metavar="FILE",
                        help="The filename in which a proposition is given. "
                        "The where() function will be run on that proposition.")
+    group.add_argument("--riddle", metavar="RIDDLE",
+                       help="The riddle name. If you use this, it is expected \
+                       that there is a model file called <RIDDLE>_model.txt \
+                       inside the Models directory and a <RIDDLE>_props.txt \
+                       inside the Propsositions directory. This uses the valid \
+                       function. Please use the -m and -w options if you want \
+                       to use the where function.")
     args = parser.parse_args()
-    model = Model.fromtxtfile(args.model)
-    print(model)
+
+    if args.riddle:
+        args.model = os.path.join("Models", args.riddle+"_model.txt")
+        args.valid = os.path.join("Propositions", args.riddle+"_props.txt")
+
+    if not args.model:
+        print("No filename specified for either the model.")
+        parser.print_help()
+        exit()
 
     if not args.valid and not args.where:
         print("No filename specified for either the valid or where functions.")
         parser.print_help()
+        exit()
+
+    model = Model.fromtxtfile(args.model)
+    print(model)
 
     # We now have the model defined.
     # Now we can ask whether a proposition is valid
@@ -224,9 +254,12 @@ def main():
                 proposition = parse_proposition(string)
                 in_worlds = where(model, proposition)
                 if len(in_worlds) == 0:
-                    print(f"The proposition is not true in every world.")
-                for world in in_worlds:
-                    print(f"The proposition is true in world {world}: {model.valuations[str(world)]}.")
+                    print(colored(f"The proposition is false in all worlds.", "red"))
+                elif len(in_worlds) == len(model.states):
+                    print(colored(f"The proposition is true in all worlds.", "green"))
+                else:
+                    for world in in_worlds:
+                        print(f"The proposition is true in world {world}: {model.valuations[str(world)]}.")
                 print("-------------------------")
                 print()
 

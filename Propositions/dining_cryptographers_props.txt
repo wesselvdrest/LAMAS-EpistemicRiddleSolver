@@ -8,20 +8,18 @@ K{C}(p | q | r) | K{C}(~(p | q | r))
 
 # In the second stage, each cryptographer publicly announces a bit, which is: if they didn't pay for the meal, the exclusive OR (XOR) of the two shared bits they hold with their two neighbours. If they did pay for the meal, the opposite of that XOR.
 
-# What are the XOR-ed bits?
-s ^ t
-t ^ u
-s ^ u
-
-# After all announcements have taken place, do any of the cryptographers know whether any of the cryptographers have paid for the dinner?
-<s ^ t><t ^ u><s ^ u>(K{A}(p | q | r) | K{A}(~(p | q | r)))
-<s ^ t><t ^ u><s ^ u>(K{B}(p | q | r) | K{B}(~(p | q | r)))
-<s ^ t><t ^ u><s ^ u>(K{C}(p | q | r) | K{C}(~(p | q | r)))
-
 # After all announcements, do any of the cryptographers know the identity of the one who has paid for the dinner (in case it was paid by a cryptographer)?
-<s ^ t><t ^ u><s ^ u>(K{A}(q) | K{A}(~(q)))
-<s ^ t><t ^ u><s ^ u>(K{A}(r) | K{A}(~(r)))
-<s ^ t><t ^ u><s ^ u>(K{B}(p) | K{B}(~(p)))
-<s ^ t><t ^ u><s ^ u>(K{B}(r) | K{B}(~(r)))
-<s ^ t><t ^ u><s ^ u>(K{C}(p) | K{C}(~(p)))
-<s ^ t><t ^ u><s ^ u>(K{C}(q) | K{C}(~(q)))
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}q)
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}r)
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}p)
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}r)
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}p)
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}q)
+
+# After all announcements have taken place, is it common knowledge that the NSA has paid?
+?(q^s^t)!?(r^t^u)!?(p^s^u)!C(~(p | q | r))
+
+#After all announcements have taken place, is it common knowledge that one of the cryptographers has paid??
+?(q^s^t)!?(r^t^u)!?(p^s^u)!C(p | q | r)
+
+

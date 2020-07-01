@@ -110,6 +110,23 @@ class Box:
     def __len__(self):
         return len(self.arg1) + len(self.arg2) + 2
 
+class Whether:
+    # A Whether announcement announces the value of the first argument
+    # If it is False, it announces the falsity, if it is true, it announces 
+    # the truth
+    def __init__(self, arg1, arg2):
+        self.arg1 = arg1
+        self.arg2 = arg2
+        self.order = 2
+
+    def __repr__(self):
+        """Right now, the whether operator can be constructed using
+        a combination of '?' as a left token and '!' as a right token."""
+        return f"Whether?{self.arg1}!({self.arg2})"
+        
+    def __len__(self):
+        return len(self.arg1) + len(self.arg2) + 2
+
 class Diamond:
     # An announcement has 2 arguments.
     def __init__(self, arg1, arg2):
@@ -186,12 +203,18 @@ class Expression:
         if string[0] == "[":
             lbrack_count = 1
             langle_count = 0
+            lquestion_count = 0
         elif string[0] == "<":
             langle_count = 1
             lbrack_count = 0
+            lquestion_count = 0
+        elif string[0] == "?":
+            lquestion_count = 1
+            lbrack_count = 0
+            langle_count = 0
 
         index = 1
-        while index < len(string) and (lbrack_count > 0 or langle_count > 0):
+        while index < len(string) and (lbrack_count > 0 or langle_count > 0 or lquestion_count > 0):
             if string[index] == "[":
                 lbrack_count += 1
 
@@ -208,6 +231,18 @@ class Expression:
                     raise ParseError(string, "Angled brackets are not balanced! More > than <")
                 langle_count -= 1
 
+            if string[index] == "?":
+                lquestion_count += 1
+
+            if string[index] == "!":
+                if lquestion_count == 0:
+                    raise ParseError(
+                        string,
+                        "Question and exclamation marks are not balanced! \
+                        More ! than ?"
+                    )
+                lquestion_count -= 1
+
             index += 1
 
         if lbrack_count > 0:
@@ -218,6 +253,10 @@ class Expression:
             # IF the langle_count is still higher than 0 after that whole while loop
             # We have at least one left angled bracket that is not closed
             raise ParseError(string, "Angled brackets are not balanced! More < than >")
+        elif lquestion_count > 0:
+            # IF the langle_count is still higher than 0 after that whole while loop
+            # We have at least one left angled bracket that is not closed
+            raise ParseError(string, "Question/exclamation marks are not balanced! More ? than !")
 
         index = index - 1
         return index        
@@ -303,6 +342,13 @@ class Expression:
                 announcement = Expression(string[1:rangle_index])
                 subexpr, string = self.order1_case(string[1+rangle_index:])
                 expr = Diamond(announcement, subexpr)
+
+            # Whether announcement ?!
+            elif string[0] == "?":
+                rexclamation_index = self.announcement_case(string)
+                announcement = Expression(string[1:rexclamation_index])
+                subexpr, string = self.order1_case(string[1+rexclamation_index:])
+                expr = Whether(announcement, subexpr)
 
             else:
                 raise ParseError(None, f"Could not parse {string[0]}")
