@@ -8,6 +8,10 @@ States:
 6
 7!
 
+# p = child A is muddy
+# q = child B is muddy
+# r = child C is muddy
+
 Valuations:
 0:
 1: p

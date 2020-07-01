@@ -38,12 +38,16 @@ def valid(model, pointed_state, proposition):
     (M, s) |= Cp       iff (M, t) |= p for all (s, t) in the union of Rel(A) .. Rel(Z)
     (M, s) |= [p]q     iff (M, s) |= p implies that (M|p, s) |= q
     (M, s) |= <p>q     iff (M, s) |= p and (M|p, s) |= q
+    
+    The following is an added announcement, based on the PubAnnounceW operator
+    from SMCDEL, by Malvin Gattinger.
+    (M, s) |= ?p!q     iff (M, s) |= p implies that (M|p, s) |= q or
+                           (M, s) not |= p implies that (M|~p, s) |= q
 
     The pointed state can be extracted from the model. A ! denotes the 
     true world.
     """
     # An atom is valid in (M, s) if the atom is in the valuation    
-
     while isinstance(proposition, Expression):
         proposition = proposition.expr
 
