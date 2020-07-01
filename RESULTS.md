@@ -218,3 +218,94 @@ OR(a, OR(b, OR(c, OR(d, OR(e, OR(f, g))))))
 (M, 2) ⊨ a|b|c|d|e|f|g
 ```
 -----------------------------------------------------------------------------------------------------------------------  
+
+
+## Dining cryptographers
+Three cryptographers are getting dinner. After dinner the waiter informs them that the meal has already been paid for by someone, either one of the cryptographers, or their employer, the National Security Agency (NSA). The cryptographers respect each other's anonymity, but want to find out whether the NSA has paid for dinner. They set up a two stage protocol, in the first stage each pair of cryptographers shares a random one-bit secret. In the second stage each cryptographer publicly shares a bit that is the result of the XOR function of the two secret bits if that cryptographer has paid, otherwise it would be the negation of that XOR function. Finally the XOR function is taken over all announced bits, if it’s 0 it implies that the NSA has paid. otherwise one of the cryptographers has paid, but it is unknown which one.
+
+Before any announcements have taken place, do any of the cryptographers know whether any of the cryptographers have paid for the dinner?
+```plain
+K{A}(p|q|r)|K{A}(~(p|q|r))
+
+OR(K{A}(OR(p, OR(q, r))), K{A}(NOT(OR(p, OR(q, r)))))
+
+(M, 28) ⊭ K{A}(p|q|r)|K{A}(~(p|q|r))
+-------------------------
+
+K{B}(p|q|r)|K{B}(~(p|q|r))
+
+OR(K{B}(OR(p, OR(q, r))), K{B}(NOT(OR(p, OR(q, r)))))
+
+(M, 28) ⊭ K{B}(p|q|r)|K{B}(~(p|q|r))
+-------------------------
+
+K{C}(p|q|r)|K{C}(~(p|q|r))
+
+OR(K{C}(OR(p, OR(q, r))), K{C}(NOT(OR(p, OR(q, r)))))
+
+(M, 28) ⊭ K{C}(p|q|r)|K{C}(~(p|q|r))
+```
+-----------------------------------------------------------------------------------------------------------------------  
+In the second stage, each cryptographer publicly announces a bit, which is: if they didn't pay for the meal, the exclusive OR (XOR) of the two shared bits they hold with their two neighbours. If they did pay for the meal, the opposite of that XOR.
+After all announcements, do any of the cryptographers know the identity of the one who has paid for the dinner (in case it was paid by a cryptographer)?
+```plain
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}q)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{A}(q))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}q)
+-------------------------
+
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}r)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{A}(r))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{A}r)
+-------------------------
+
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}p)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{B}(p))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}p)
+-------------------------
+
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}r)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{B}(r))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{B}r)
+-------------------------
+
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}p)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{C}(p))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}p)
+-------------------------
+
+?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}q)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(K{C}(q))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!(K{C}q)
+-------------------------
+```
+-----------------------------------------------------------------------------------------------------------------------  
+After all announcements have taken place, is it common knowledge that the NSA has paid?
+```plain
+?(q^s^t)!?(r^t^u)!?(p^s^u)!C(~(p|q|r))
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(C(NOT(OR(p, OR(q, r)))))))
+
+(M, 28) ⊨ ?(q^s^t)!?(r^t^u)!?(p^s^u)!C(~(p|q|r))
+```
+-----------------------------------------------------------------------------------------------------------------------  
+After all announcements have taken place, is it common knowledge that one of the cryptographers has paid?
+```plain
+?(q^s^t)!?(r^t^u)!?(p^s^u)!C(p|q|r)
+
+Whether?XOR(q, XOR(s, t))!(Whether?XOR(r, XOR(t, u))!(Whether?XOR(p, XOR(s, u))!(C(OR(p, OR(q, r))))))
+
+(M, 28) ⊭ ?(q^s^t)!?(r^t^u)!?(p^s^u)!C(p|q|r)
+```
