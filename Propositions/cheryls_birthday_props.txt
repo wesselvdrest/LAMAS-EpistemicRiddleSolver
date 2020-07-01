@@ -7,10 +7,10 @@ K{A}(p & x) | K{A}(p & y) | K{A}(q & v) | K{A}(q & y) | K{A}(r & v) | K{A}(r & x
 K{B}(p & x) | K{B}(p & y) | K{B}(q & v) | K{B}(q & y) | K{B}(r & v) | K{B}(r & x) | K{B}(s & w) | K{B}(s & y) | K{B}(t & w) | K{B}(u & v)
 
 # Albert announces that he does not know Cheryl's birthday and he knows that Bernard does not know it. Does Bernard know Cheryl's birthday now?
-[(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)](K{B}(p & x) | K{B}(p & y) | K{B}(q & v) | K{B}(q & y) | K{B}(r & v) | K{B}(r & x) | K{B}(s & w) | K{B}(s & y) | K{B}(t & w) | K{B}(u & v))
+<(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)>(K{B}(p & x) | K{B}(p & y) | K{B}(q & v) | K{B}(q & y) | K{B}(r & v) | K{B}(r & x) | K{B}(s & w) | K{B}(s & y) | K{B}(t & w) | K{B}(u & v))
 
 # Bernard announces that he now knows Cheryl's birthday. Does Albert know the birthday now?
-[(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)][K{B}v | K{B}w | K{B}x | K{B}y](K{A}(p & x) | K{A}(p & y) | K{A}(q & v) | K{A}(q & y) | K{A}(r & v) | K{A}(r & x) | K{A}(s & w) | K{A}(s & y) | K{A}(t & w) | K{A}(u & v))
+<(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)><K{B}v | K{B}w | K{B}x | K{B}y>(K{A}(p & x) | K{A}(p & y) | K{A}(q & v) | K{A}(q & y) | K{A}(r & v) | K{A}(r & x) | K{A}(s & w) | K{A}(s & y) | K{A}(t & w) | K{A}(u & v))
 
 # Is it common knowledge that Cheryl's birthday is the 16th of July after the announcement of Bernard?
-[(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)][K{B}v | K{B}w | K{B}x | K{B}y]C(r & x)
+<(~K{A}p & ~K{A}q & ~K{A}r & ~K{A}s & ~K{A}t & ~K{A}u) & K{A}(~K{B}v & ~K{B}w & ~K{B}x & ~K{B}y)><K{B}v | K{B}w | K{B}x | K{B}y>C(r & x)
