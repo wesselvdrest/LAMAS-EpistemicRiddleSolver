@@ -18,6 +18,12 @@ To see where a given proposition holds in the given Kripke model, run:
 python3 Code/solver.py -m <Models/model_file> -w <Propositions/proposition_file>
 ```
 
+The program can also be run with the following command, provided that there is an according model file and proposition file in the Models and Propositions directory. This is the case for our premade riddles:  
+```bash
+python3 Code/solver.py --riddle <riddle_name>
+```
+Example riddle names would be drinking_logicians, muddy_children or dining_cryptographers.
+
 ## Format of Kripke model
 A model file should follow the format of the following example:  
 ```plain
