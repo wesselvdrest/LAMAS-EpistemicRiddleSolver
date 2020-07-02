@@ -74,60 +74,61 @@ Box[AND(NOT(OR(K{A}(AND(p, AND(q, r))), K{A}(NOT(AND(p, AND(q, r)))))), NOT(OR(K
 ```
 
 ## Cheryl's Birthday
-
-Does anyone know Cheryl's birthday?
-
-```plain
-K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)|K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
-
-OR(K{A}(AND(p, x)), OR(K{A}(AND(p, y)), OR(K{A}(AND(q, v)), OR(K{A}(AND(q, y)), OR(K{A}(AND(r, v)), OR(K{A}(AND(r, x)), OR(K{A}(AND(s, w)), OR(K{A}(AND(s, y)), OR(K{A}(AND(t, w)), OR(K{A}(AND(u, v)), OR(K{B}(AND(p, x)), OR(K{B}(AND(p, y)), OR(K{B}(AND(q, v)), OR(K{B}(AND(q, y)), OR(K{B}(AND(r, v)), OR(K{B}(AND(r, x)), OR(K{B}(AND(s, w)), OR(K{B}(AND(s, y)), OR(K{B}(AND(t, w)), K{B}(AND(u, v)))))))))))))))))))))
-
-(M, 5) ⊭ K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)|K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
-```
----------------------------------------------------------------------------------------------------------------------
-
-Cheryl tells Albert that the month of her birthday is july and Bernard that the day of her birthday is 16
+The following description is taken from Wikipedia: "Albert and Bernard just became friends with Cheryl, and they want to know when her birthday is. Cheryl gives them a list of 10 possible dates. Cheryl then tells Albert and Bernard separately the month and the day of her birthday respectively. Albert: I don't know when Cheryl's birthday is, but I know that Bernard doesn't know too. Bernard: At first I did not know when Cheryl's birthday is, but I know now. Albert: Then I also know when Cheryl's birthday is. So when is Cheryl's birthday?" 
 
 ```plain
-[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+Does Albert know Cheryl's birthday?
 
-Box[AND(K{A}(OR(AND(p, x), AND(r, x))), K{B}(OR(AND(r, v), AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x))))
+K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)
 
-(M, 5) ⊨ [K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+OR(K{A}(AND(p, x)), OR(K{A}(AND(p, y)), OR(K{A}(AND(q, v)), OR(K{A}(AND(q, y)), OR(K{A}(AND(r, v)), OR(K{A}(AND(r, x)), OR(K{A}(AND(s, w)), OR(K{A}(AND(s, y)), OR(K{A}(AND(t, w)), K{A}(AND(u, v)))))))))))
+
+(M, 5) ⊭ K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v)
 ```
---------------------------------------------------------------------------------------------------------------------  
+-------------------------
 
-Albert announces that he does not know cheryls birthday and he knows that Bernard does not know it
+Does Bernard know Cheryl's birthday?
+```plain
+K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
+
+OR(K{B}(AND(p, x)), OR(K{B}(AND(p, y)), OR(K{B}(AND(q, v)), OR(K{B}(AND(q, y)), OR(K{B}(AND(r, v)), OR(K{B}(AND(r, x)), OR(K{B}(AND(s, w)), OR(K{B}(AND(s, y)), OR(K{B}(AND(t, w)), K{B}(AND(u, v)))))))))))
+
+(M, 5) ⊭ K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v)
+```
+-------------------------
+
+Albert announces that he does not know Cheryl's birthday and he knows that Bernard does not know it. Does Bernard know Cheryl's birthday now?
 
 ```plain
-<K{A}(p&x|r&x)&K{A}K{B}(r&v|r&x)>[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+<(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)>(K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v))
 
-Diamond<AND(K{A}(AND(p, OR(x, AND(r, x)))), K{A}(K{B}(AND(r, OR(v, AND(r, x))))))>(Box[AND(K{A}(OR(AND(p, x), AND(r, x))), K{B}(OR(AND(r, v), AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x)))))
+Diamond<AND(AND(NOT(K{A}(p)), AND(NOT(K{A}(q)), AND(NOT(K{A}(r)), AND(NOT(K{A}(s)), AND(NOT(K{A}(t)), NOT(K{A}(u))))))), K{A}(AND(NOT(K{B}(v)), AND(NOT(K{B}(w)), AND(NOT(K{B}(x)), NOT(K{B}(y)))))))>(OR(K{B}(AND(p, x)), OR(K{B}(AND(p, y)), OR(K{B}(AND(q, v)), OR(K{B}(AND(q, y)), OR(K{B}(AND(r, v)), OR(K{B}(AND(r, x)), OR(K{B}(AND(s, w)), OR(K{B}(AND(s, y)), OR(K{B}(AND(t, w)), K{B}(AND(u, v))))))))))))
 
-(M, 5) ⊭ <K{A}(p&x|r&x)&K{A}K{B}(r&v|r&x)>[K{A}((p&x)|(r&x))&K{B}((r&v)|(r&x))](K{A}(r&x)&K{B}(r&x))
+(M, 5) ⊨ <(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)>(K{B}(p&x)|K{B}(p&y)|K{B}(q&v)|K{B}(q&y)|K{B}(r&v)|K{B}(r&x)|K{B}(s&w)|K{B}(s&y)|K{B}(t&w)|K{B}(u&v))
 ```
---------------------------------------------------------------------------------------------------------------------  
+-------------------------
 
-Albert and Bernard both announce that they know cheryls birthday, do they know her birthday now?
+Bernard announces that he now knows Cheryl's birthday. Does Albert know the birthday now?
 
 ```plain
-<K{A}(r&x)&K{B}(r&x)>[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)](K{A}(r&x)&K{B}(r&x))
+<(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)><K{B}v|K{B}w|K{B}x|K{B}y>(K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v))
 
-Diamond<AND(K{A}(AND(r, x)), K{B}(AND(r, x)))>(Box[AND(K{A}(AND(r, x)), AND(K{A}(K{B}(AND(r, x))), K{B}(AND(r, x))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x)))))
+Diamond<AND(AND(NOT(K{A}(p)), AND(NOT(K{A}(q)), AND(NOT(K{A}(r)), AND(NOT(K{A}(s)), AND(NOT(K{A}(t)), NOT(K{A}(u))))))), K{A}(AND(NOT(K{B}(v)), AND(NOT(K{B}(w)), AND(NOT(K{B}(x)), NOT(K{B}(y)))))))>(Diamond<OR(K{B}(v), OR(K{B}(w), OR(K{B}(x), K{B}(y))))>(OR(K{A}(AND(p, x)), OR(K{A}(AND(p, y)), OR(K{A}(AND(q, v)), OR(K{A}(AND(q, y)), OR(K{A}(AND(r, v)), OR(K{A}(AND(r, x)), OR(K{A}(AND(s, w)), OR(K{A}(AND(s, y)), OR(K{A}(AND(t, w)), K{A}(AND(u, v)))))))))))))
 
-(M, 5) ⊭ <K{A}(r&x)&K{B}(r&x)>[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)](K{A}(r&x)&K{B}(r&x))
+(M, 5) ⊨ <(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)><K{B}v|K{B}w|K{B}x|K{B}y>(K{A}(p&x)|K{A}(p&y)|K{A}(q&v)|K{A}(q&y)|K{A}(r&v)|K{A}(r&x)|K{A}(s&w)|K{A}(s&y)|K{A}(t&w)|K{A}(u&v))
 ```
------------------------------------------------------------------------------------------------------------------------  
+-------------------------
 
-After all the announcements do both Albert and Bernard know Cheryls birthday?
+Is it common knowledge that Cheryl's birthday is the 16th of July after the announcement of Bernard?
+
 ```plain
-[K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)&K{B}K{A}(r&x)](K{A}(r&x)&K{B}(r&x))
+<(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)><K{B}v|K{B}w|K{B}x|K{B}y>C(r&x)
 
-Box[AND(K{A}(AND(r, x)), AND(K{A}(K{B}(AND(r, x))), AND(K{B}(AND(r, x)), K{B}(K{A}(AND(r, x))))))](AND(K{A}(AND(r, x)), K{B}(AND(r, x))))
+Diamond<AND(AND(NOT(K{A}(p)), AND(NOT(K{A}(q)), AND(NOT(K{A}(r)), AND(NOT(K{A}(s)), AND(NOT(K{A}(t)), NOT(K{A}(u))))))), K{A}(AND(NOT(K{B}(v)), AND(NOT(K{B}(w)), AND(NOT(K{B}(x)), NOT(K{B}(y)))))))>(Diamond<OR(K{B}(v), OR(K{B}(w), OR(K{B}(x), K{B}(y))))>(C(AND(r, x))))
 
-(M, 5) ⊨ [K{A}(r&x)&K{A}K{B}(r&x)&K{B}(r&x)&K{B}K{A}(r&x)](K{A}(r&x)&K{B}(r&x))
+(M, 5) ⊨ <(~K{A}p&~K{A}q&~K{A}r&~K{A}s&~K{A}t&~K{A}u)&K{A}(~K{B}v&~K{B}w&~K{B}x&~K{B}y)><K{B}v|K{B}w|K{B}x|K{B}y>C(r&x)
 ```
---------------------------------------------------------------------------------------------------------------------
+-------------------------
 
 ## Consecutive Numbers
 Anne and Bill are each going to be told a natural number. Their numbers will be one apart. The numbers are now being whispered in their respective ears. They are aware of this scenario. Suppose Anne is told 2 and Bill is told 3. The following truthful conversation between Anne and Bill now takes place: Anne: "I do not know your number." Bill: "I do not know your number." Anne: "I know your number." Bill: "I know your number." 
