@@ -72,9 +72,6 @@ where M|φ is defined as the subset of M such that φ is  valid in all its state
 
 
 
-                           (M, s) not |= p implies that (M|~p, s) |= q
-
-
 
 
 
