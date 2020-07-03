@@ -66,7 +66,7 @@ We make use of the semantics definition as defined in the book Dynamic Epistemic
 The following is an added announcement, based on the PubAnnounceW operator
 from SMCDEL, by Malvin Gattinger.  
 
-(M,s) ⊨ ?p!q iff (M,s) ⊨ p implies that (M|p, s) |= q or (M,s) ⊨ ¬p implies that (M|¬p, s) ⊨ q
+(M,s) ⊨ ?p!q iff (M,s) ⊨ p implies that (M|p, s) ⊨ q or (M,s) ⊨ ¬p implies that (M|¬p, s) ⊨ q
 
 where M|φ is defined as the subset of M such that φ is  valid in all its states. This is equivalent to pruning  the model of the states where φ is invalid, followed by the deletion of the valuations and relations that mention those states. Now, evaluating whether a given expression is valid in a pointed model (M,s) is a matter of recursively evaluating all sub-expressions  in that pointed model. For example, if we were to evaluate the expression (M,s)⊨¬p, we evaluate the sub-expression p in (M,s) and then we negate that value.
 
