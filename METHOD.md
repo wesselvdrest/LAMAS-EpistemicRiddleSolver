@@ -64,7 +64,7 @@ We make use of the semantics definition as defined in the book Dynamic Epistemic
 (M,s) ⊨ [φ]ψ &nbsp;&nbsp;&nbsp;iff  (M,s) ⊨ φ implies (M|φ,s) ⊨ ψ  
 
 The following is an added announcement, based on the PubAnnounceW operator
-from SMCDEL, by Malvin Gattinger.
+from SMCDEL, by Malvin Gattinger.  
 (M,s) ⊨ ?p!q &nbsp;&nbsp;&nbsp;    iff (M,s) ⊨ p implies that (M|p, s) |= q or
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; (M,s) ⊨ ¬p implies that (M|¬p, s) ⊨ q
 
